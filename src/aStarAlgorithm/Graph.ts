@@ -39,10 +39,33 @@ export const init = async (
 	const startNode = graph[data.start.y][data.start.x];
 	const endNode = graph[data.end.y][data.end.x];
 
+	// Расчет стоимости узлов
+	await costNodes(graph, startNode, endNode);
 	// Визуализируем граф, если требуется
 	settings?.log && (await visualize(graph, startNode, endNode));
 
 	return graph;
+};
+
+const costNodes = async (
+	graph: TGraph,
+	start: TGraphNode,
+	end: TGraphNode,
+): Promise<void> => {
+	for (const row of graph) {
+		for (const node of row) {
+			if (node.traversable) {
+				// gCost: расстояние от стартового узла
+				node.gCost = Math.abs(node.x - start.x) + Math.abs(node.y - start.y);
+
+				// hCost: эвристическая стоимость до конечного узла (используем манхэттенское расстояние)
+				node.hCost = Math.abs(node.x - end.x) + Math.abs(node.y - end.y);
+
+				// fCost: сумма gCost и hCost
+				node.fCost = node.gCost + node.hCost;
+			}
+		}
+	}
 };
 
 const visualize = async (
@@ -55,7 +78,8 @@ const visualize = async (
 			if (node === start) return "S"; // Старт
 			if (node === end) return "E"; // Конец
 			if (!node.traversable) return "x"; // Непроходимый узел
-			return ""; // Проходимый узел
+
+			return `${node.fCost}`;
 		}),
 	);
 
