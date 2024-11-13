@@ -1,12 +1,24 @@
 import type { TGraph, TGraphNode } from "@/aStarAlgorithm/models";
+import type { Point } from "@/models";
 
-export const loadGraph = async (
-	width: number,
-	height: number,
-	obstacles: [number, number][],
+export interface IGraphData {
+	start: Point;
+	end: Point;
+	obstacles: Point[];
+	width: number;
+	height: number;
+}
+
+export interface IGraphSettings {
+	log: boolean;
+}
+
+export const init = async (
+	data: IGraphData,
+	settings?: Partial<IGraphSettings>,
 ): Promise<TGraph> => {
-	const graph: TGraph = Array.from({ length: height }, (_, y) =>
-		Array.from({ length: width }, (_, x) => ({
+	const graph: TGraph = Array.from({ length: data.height }, (_, y) =>
+		Array.from({ length: data.width }, (_, x) => ({
 			x,
 			y,
 			traversable: true,
@@ -17,16 +29,23 @@ export const loadGraph = async (
 	);
 
 	// Устанавливаем препятствия
-	for (const [x, y] of obstacles) {
+	for (const { x, y } of data.obstacles) {
 		if (graph[y]?.[x]) {
 			graph[y][x].traversable = false;
 		}
 	}
 
+	// Получаем стартовую и конечную точки
+	const startNode = graph[data.start.y][data.start.x];
+	const endNode = graph[data.end.y][data.end.x];
+
+	// Визуализируем граф, если требуется
+	settings?.log && (await visualize(graph, startNode, endNode));
+
 	return graph;
 };
 
-export const visualizeGraph = async (
+const visualize = async (
 	graph: TGraph,
 	start: TGraphNode,
 	end: TGraphNode,

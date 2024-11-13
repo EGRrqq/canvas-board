@@ -1,14 +1,15 @@
-import { Graph } from "@/aStarAlgorithm";
+import { Graph, type IGraphData, type IGraphSettings } from "@/aStarAlgorithm";
 
-const width = 5;
-const height = 3;
-const obstacles: [number, number][] = [
-	[1, 1],
-	[2, 1],
-]; // Препятствия
-const graph = await Graph.loadGraph(width, height, obstacles);
+const graphData: IGraphData = {
+	width: 5,
+	height: 3,
+	obstacles: [
+		{ x: 1, y: 1 },
+		{ x: 2, y: 1 },
+	],
+	start: { x: 1, y: 0 },
+	end: { x: 2, y: 2 },
+};
+const graphSettings: IGraphSettings = { log: true };
 
-const startNode = graph[0][0]; // Стартовая точка
-const endNode = graph[2][4]; // Конечная точка
-
-await Graph.visualizeGraph(graph, startNode, endNode);
+const graph = await Graph.init(graphData, graphSettings);
