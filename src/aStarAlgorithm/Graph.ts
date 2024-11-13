@@ -72,6 +72,11 @@ export const init = async (
 
 	// Расчет стоимости узлов
 	await costNodes(graph, startNode, endNode);
+
+	// Инициализация буферов
+	const openNodes: TGraphNode[] = [startNode]; // Начинаем с стартового узла
+	const closedNodes: TGraphNode[] = [];
+
 	// Визуализируем граф, если требуется
 	settings?.log && (await log(graph, startNode, endNode));
 
