@@ -1,6 +1,9 @@
 import type { TGraph, TGraphNode } from "@/aStarAlgorithm/models";
 import type { Point } from "@/models";
 
+import { costNodes } from "@/aStarAlgorithm/Graph/costNodes";
+import { log } from "@/aStarAlgorithm/Graph/log";
+
 export interface IGraphData {
 	start: Point;
 	end: Point;
@@ -81,43 +84,4 @@ export const init = async (
 	settings?.log && (await log(graph, startNode, endNode));
 
 	return graph;
-};
-
-const costNodes = async (
-	graph: TGraph,
-	start: TGraphNode,
-	end: TGraphNode,
-): Promise<void> => {
-	for (const row of graph) {
-		for (const node of row) {
-			if (node.traversable) {
-				// gCost: расстояние от стартового узла
-				node.gCost = Math.abs(node.x - start.x) + Math.abs(node.y - start.y);
-
-				// hCost: эвристическая стоимость до конечного узла (используем манхэттенское расстояние)
-				node.hCost = Math.abs(node.x - end.x) + Math.abs(node.y - end.y);
-
-				// fCost: сумма gCost и hCost
-				node.fCost = node.gCost + node.hCost;
-			}
-		}
-	}
-};
-
-const log = async (
-	graph: TGraph,
-	start: TGraphNode,
-	end: TGraphNode,
-): Promise<void> => {
-	const visualGraph = graph.map((row) =>
-		row.map((node) => {
-			if (node === start) return "S"; // Старт
-			if (node === end) return "E"; // Конец
-			if (!node.traversable) return "x"; // Непроходимый узел
-
-			return `${node.fCost}`;
-		}),
-	);
-
-	console.log(visualGraph);
 };
