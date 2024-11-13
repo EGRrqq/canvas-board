@@ -73,7 +73,7 @@ export const init = async (
 	// Расчет стоимости узлов
 	await costNodes(graph, startNode, endNode);
 	// Визуализируем граф, если требуется
-	settings?.log && (await visualize(graph, startNode, endNode));
+	settings?.log && (await log(graph, startNode, endNode));
 
 	return graph;
 };
@@ -99,7 +99,7 @@ const costNodes = async (
 	}
 };
 
-const visualize = async (
+const log = async (
 	graph: TGraph,
 	start: TGraphNode,
 	end: TGraphNode,
