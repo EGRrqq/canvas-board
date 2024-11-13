@@ -1,13 +1,11 @@
-import type { GraphNode } from "@/aStarAlgorithm/TNode";
-
-type Graph = GraphNode[][];
+import type { TGraph, TGraphNode } from "@/aStarAlgorithm/models";
 
 export const loadGraph = async (
 	width: number,
 	height: number,
 	obstacles: [number, number][],
-): Promise<Graph> => {
-	const graph: Graph = Array.from({ length: height }, (_, y) =>
+): Promise<TGraph> => {
+	const graph: TGraph = Array.from({ length: height }, (_, y) =>
 		Array.from({ length: width }, (_, x) => ({
 			x,
 			y,
@@ -29,9 +27,9 @@ export const loadGraph = async (
 };
 
 export const visualizeGraph = async (
-	graph: Graph,
-	start: GraphNode,
-	end: GraphNode,
+	graph: TGraph,
+	start: TGraphNode,
+	end: TGraphNode,
 ): Promise<void> => {
 	const visualGraph = graph.map((row) =>
 		row.map((node) => {
