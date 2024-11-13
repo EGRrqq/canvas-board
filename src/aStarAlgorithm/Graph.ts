@@ -28,10 +28,41 @@ export const init = async (
 		})),
 	);
 
+	// Проверка на корректность стартовой и конечной точек
+	if (!graph[data.start.y] || !graph[data.start.y][data.start.x]) {
+		throw new Error(
+			`Стартовой точки (${data.start.x}, ${data.start.y}) нет в графе ${data.width}x${data.height}`,
+		);
+	}
+	if (!graph[data.end.y] || !graph[data.end.y][data.end.x]) {
+		throw new Error(
+			`Конечной точки (${data.end.x}, ${data.end.y}) нет в графе ${data.width}x${data.height}`,
+		);
+	}
+
 	// Устанавливаем препятствия
 	for (const { x, y } of data.obstacles) {
-		if (graph[y]?.[x]) {
-			graph[y][x].traversable = false;
+		// Проверка на выход за границы графа
+		if (!graph[y]?.[x]) {
+			console.warn(
+				`Препятствие (${x}, ${y}) вне границ ${data.width}x${data.height} графа`,
+			);
+			continue; // Пропускаем итерацию, если препятствие вне границ
+		}
+
+		// Устанавливаем препятствие
+		graph[y][x].traversable = false;
+
+		// Проверка, попадает ли стартовая или конечная точка в препятствия
+		if (data.start.x === x && data.start.y === y) {
+			throw new Error(
+				`Стартовая точка (${data.start.x}, ${data.start.y}) находится на препятствии`,
+			);
+		}
+		if (data.end.x === x && data.end.y === y) {
+			throw new Error(
+				`Конечная точка (${data.end.x}, ${data.end.y}) находится на препятствии`,
+			);
 		}
 	}
 
