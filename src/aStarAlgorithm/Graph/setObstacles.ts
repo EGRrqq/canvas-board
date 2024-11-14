@@ -4,8 +4,8 @@ import type { TGraph } from "../models";
 export const setObstacles = (
 	graph: TGraph,
 	obstacles: Point[],
-	start: Point,
-	end: Point,
+	startNode: Point,
+	endNode: Point,
 ): void => {
 	for (const { x, y } of obstacles) {
 		// Проверка на выход за границы графа
@@ -18,14 +18,14 @@ export const setObstacles = (
 		graph[y][x].traversable = false;
 
 		// Проверка, попадает ли стартовая или конечная точка в препятствия
-		if (start.x === x && start.y === y) {
+		if (startNode.x === x && startNode.y === y) {
 			throw new Error(
-				`Стартовая точка (${start.x}, ${start.y}) находится на препятствии`,
+				`Стартовая точка (${startNode.x}, ${startNode.y}) находится на препятствии`,
 			);
 		}
-		if (end.x === x && end.y === y) {
+		if (endNode.x === x && endNode.y === y) {
 			throw new Error(
-				`Конечная точка (${end.x}, ${end.y}) находится на препятствии`,
+				`Конечная точка (${endNode.x}, ${endNode.y}) находится на препятствии`,
 			);
 		}
 	}
