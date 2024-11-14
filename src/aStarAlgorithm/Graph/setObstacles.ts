@@ -1,5 +1,6 @@
 import type { TGraph } from "@/aStarAlgorithm";
 import type { Point } from "@/models";
+import { validatePoint } from "./validatePoint";
 
 export const setObstacles = (
 	graph: TGraph,
@@ -10,23 +11,15 @@ export const setObstacles = (
 	for (const { x, y } of obstacles) {
 		// Проверка на выход за границы графа
 		if (!graph[y]?.[x]) {
-			console.warn(`Препятствие (${x}, ${y}) вне границ графа`);
-			continue; // Пропускаем итерацию, если препятствие вне границ
+			validatePoint(graph, { x, y }, "Препятствие");
 		}
 
-		// Устанавливаем препятствие
-		graph[y][x].traversable = false;
-
-		// Проверка, попадает ли стартовая или конечная точка в препятствия
-		if (startNode.x === x && startNode.y === y) {
-			throw new Error(
-				`Стартовая точка (${startNode.x}, ${startNode.y}) находится на препятствии`,
-			);
-		}
-		if (endNode.x === x && endNode.y === y) {
-			throw new Error(
-				`Конечная точка (${endNode.x}, ${endNode.y}) находится на препятствии`,
-			);
+		// Устанавливаем препятствие, если это не стартовая или конечная точка
+		if (
+			!(startNode.x === x && startNode.y === y) &&
+			!(endNode.x === x && endNode.y === y)
+		) {
+			graph[y][x].traversable = false;
 		}
 	}
 };
