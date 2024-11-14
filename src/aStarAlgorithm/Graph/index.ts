@@ -40,10 +40,14 @@ export const init = async (
 	// Расчет стоимости узлов
 	await costNodes(graph, startNode, endNode);
 
-	// Визуализируем граф, если требуется
-	settings?.log && (await log(graph, startNode, endNode));
-
 	// Запускаем поиск пути
-	const path = findPath(graph, startNode, endNode);
+	const path = await findPath(graph, startNode, endNode);
+
+	// Логируем граф, если требуется
+	settings?.log &&
+		path.map(
+			async ({ x, y }) => await log(graph, startNode, endNode, graph[y][x]),
+		);
+
 	return path;
 };
