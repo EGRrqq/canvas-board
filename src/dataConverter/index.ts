@@ -3,6 +3,8 @@ import type { ConnectionPoint, Point, Rect } from "@/models";
 
 import { getRectDimensions } from "@/dataConverter/getRectDimensions";
 import { getRectObstacles } from "@/dataConverter/getRectObstacles";
+import { isAngleCorrect } from "@/dataConverter/isAngleCorrect";
+import { isPointOnRectBoundary } from "@/dataConverter/isPointOnRectBoundary";
 
 export const dataConverter = async (
 	rect1: Rect,
@@ -10,17 +12,10 @@ export const dataConverter = async (
 	cPoint1: ConnectionPoint,
 	cPoint2: ConnectionPoint,
 ): Promise<Point[]> => {
-	// design proto
-	/*
-     if (!isPointOnRect(cPoint2.point, rect2)) {
-      throw new Error("Точка подсоединения не лежит на грани прямоугольника.");
-     }
-     if (!isAngleValid(cPoint1, rect1)) {
-      throw new Error("Угол подсоединения не направлен перпендикулярно и наружу от грани прямоугольника.");
-     }
+	// Проверка корректности точек подсоединения
+	validateConnectionPoint(cPoint1, rect1, "Точка подсоединения 1");
+	validateConnectionPoint(cPoint2, rect2, "Точка подсоединения 2");
 
-     return aStarAlgorithm(rect1, rect2, cPoint1, cPoint2);
-	*/
 	// Определение размеров графа
 	const graphDimensions = getRectDimensions(rect1, rect2);
 
@@ -37,4 +32,19 @@ export const dataConverter = async (
 	const path = await Graph.calcPath(graphData, { log: true });
 
 	return path;
+};
+
+const validateConnectionPoint = (
+	cPoint: ConnectionPoint,
+	rect: Rect,
+	pointName: string,
+): void => {
+	if (!isPointOnRectBoundary(cPoint.point, rect)) {
+		throw new Error(`${pointName} не лежит на грани прямоугольника`);
+	}
+	if (!isAngleCorrect(cPoint.angle, cPoint.point, rect)) {
+		throw new Error(
+			`Угол ${pointName} не перпендикулярен грани прямоугольника`,
+		);
+	}
 };
