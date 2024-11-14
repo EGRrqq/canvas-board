@@ -22,8 +22,8 @@ describe("log", () => {
 		await log(graph, startNode, endNode, curNode);
 
 		expect(consoleLogSpy).toHaveBeenCalledWith([
-			["🏁", "🏃"],
-			[" 0", "🏆"],
+			["  🏁", "  🏃"],
+			["   0", "  🏆"],
 		]);
 
 		consoleLogSpy.mockRestore();
