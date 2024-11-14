@@ -1,11 +1,11 @@
 import type { Point } from "@/models";
 
-import { checkPoint } from "@/aStarAlgorithm/Graph/checkPoint";
 import { costNodes } from "@/aStarAlgorithm/Graph/costNodes";
 import { createGraph } from "@/aStarAlgorithm/Graph/createGraph";
 import { findPath } from "@/aStarAlgorithm/Graph/findPath";
 import { log } from "@/aStarAlgorithm/Graph/log";
 import { setObstacles } from "@/aStarAlgorithm/Graph/setObstacles";
+import { validatePoint } from "@/aStarAlgorithm/Graph/validatePoint";
 
 export interface IGraphData {
 	start: Point;
@@ -27,8 +27,8 @@ export const calcPath = async (
 	const graph = createGraph(data);
 
 	// Проверка на корректность стартовой и конечной точек
-	checkPoint(graph, data.start, "Стартовая точка");
-	checkPoint(graph, data.end, "Конечная точка");
+	validatePoint(graph, data.start, "Стартовая точка");
+	validatePoint(graph, data.end, "Конечная точка");
 
 	// Устанавливаем препятствия
 	setObstacles(graph, data.obstacles, data.start, data.end);

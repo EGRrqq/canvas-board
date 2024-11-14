@@ -1,7 +1,7 @@
 import type { TGraph } from "@/aStarAlgorithm";
 import type { Point } from "@/models";
 
-export const checkPoint = (
+export const validatePoint = (
 	graph: TGraph,
 	point: Point,
 	pointName: string,
