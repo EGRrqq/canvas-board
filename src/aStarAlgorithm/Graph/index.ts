@@ -1,8 +1,9 @@
-import type { TGraph, TGraphNode } from "@/aStarAlgorithm/models";
+import type { TGraph } from "@/aStarAlgorithm/models";
 import type { Point } from "@/models";
 
 import { costNodes } from "@/aStarAlgorithm/Graph/costNodes";
 import { log } from "@/aStarAlgorithm/Graph/log";
+import { findPath } from "./findPath";
 
 export interface IGraphData {
 	start: Point;
@@ -19,7 +20,7 @@ export interface IGraphSettings {
 export const init = async (
 	data: IGraphData,
 	settings?: Partial<IGraphSettings>,
-): Promise<TGraph> => {
+): Promise<Point[]> => {
 	const graph: TGraph = Array.from({ length: data.height }, (_, y) =>
 		Array.from({ length: data.width }, (_, x) => ({
 			x,
@@ -76,12 +77,10 @@ export const init = async (
 	// Расчет стоимости узлов
 	await costNodes(graph, startNode, endNode);
 
-	// Инициализация буферов
-	const openNodes: TGraphNode[] = [startNode]; // Начинаем с стартового узла
-	const closedNodes: TGraphNode[] = [];
-
 	// Визуализируем граф, если требуется
 	settings?.log && (await log(graph, startNode, endNode));
 
-	return graph;
+	// Запускаем поиск пути
+	const path = findPath(graph, startNode, endNode);
+	return path;
 };
