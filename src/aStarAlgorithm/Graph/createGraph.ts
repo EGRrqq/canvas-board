@@ -1,5 +1,4 @@
-import type { IGraphData } from ".";
-import type { TGraph } from "../models";
+import type { IGraphData, TGraph } from "@/aStarAlgorithm";
 
 export const createGraph = (data: IGraphData): TGraph =>
 	Array.from({ length: data.height }, (_, y) =>

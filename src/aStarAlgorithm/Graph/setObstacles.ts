@@ -1,5 +1,5 @@
+import type { TGraph } from "@/aStarAlgorithm";
 import type { Point } from "@/models";
-import type { TGraph } from "../models";
 
 export const setObstacles = (
 	graph: TGraph,
