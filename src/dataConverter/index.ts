@@ -1,6 +1,9 @@
 import { Graph, type IGraphData } from "@/aStarAlgorithm";
 import type { ConnectionPoint, Point, Rect } from "@/models";
 
+import { getRectDimensions } from "@/dataConverter/getRectDimensions";
+import { getRectObstacles } from "@/dataConverter/getRectObstacles";
+
 export const dataConverter = async (
 	rect1: Rect,
 	rect2: Rect,
@@ -34,39 +37,4 @@ export const dataConverter = async (
 	const path = await Graph.calcPath(graphData, { log: true });
 
 	return path;
-};
-
-const getRectObstacles = (rect: Rect): Point[] => {
-	const { position, size } = rect;
-	const halfWidth = size.width / 2;
-	const halfHeight = size.height / 2;
-
-	const obstacles: Point[] = [];
-
-	for (let x = position.x - halfWidth; x <= position.x + halfWidth; x++) {
-		for (let y = position.y - halfHeight; y <= position.y + halfHeight; y++) {
-			obstacles.push({ x, y });
-		}
-	}
-
-	return obstacles;
-};
-
-const getRectDimensions = (
-	rect1: Rect,
-	rect2: Rect,
-): { width: number; height: number } => {
-	const maxX = Math.max(
-		rect1.position.x + rect1.size.width / 2,
-		rect2.position.x + rect2.size.width / 2,
-	);
-	const maxY = Math.max(
-		rect1.position.y + rect1.size.height / 2,
-		rect2.position.y + rect2.size.height / 2,
-	);
-
-	return {
-		width: maxX * 2,
-		height: maxY * 2,
-	};
 };
