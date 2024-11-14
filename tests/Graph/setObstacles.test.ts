@@ -55,8 +55,7 @@ describe("setObstacles", () => {
 		const endNode = { x: 1, y: 0 };
 
 		expect(() => setObstacles(graph, obstacles, startNode, endNode)).toThrow(
-			// "Препятствие (2, 2) вне границ графа",
-			"Препятствие (2, 2) нет в графе",
+			"Препятствие (2, 2) вне границ графа",
 		);
 	});
 });

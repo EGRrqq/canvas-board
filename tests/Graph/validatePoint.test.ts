@@ -6,7 +6,7 @@ const graph: TGraph = [
 	[{ x: 0, y: 0, traversable: true, gCost: 0, hCost: 0, fCost: 0 }],
 ];
 
-describe("checkPoint", () => {
+describe("validatePoint", () => {
 	it("должен проверить, что точка находится в графе", () => {
 		const point = { x: 0, y: 0 };
 
@@ -15,10 +15,10 @@ describe("checkPoint", () => {
 
 	it("должен выбросить ошибку, если точка не находится в графе", () => {
 		const point = { x: 1, y: 1 };
-		const pointName = "Точки";
+		const pointName = "Точкa";
 
 		expect(() => validatePoint(graph, point, pointName)).toThrow(
-			`${pointName} (1, 1) нет в графе`,
+			`${pointName} (1, 1) вне границ графа`,
 		);
 	});
 });
