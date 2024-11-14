@@ -12,5 +12,5 @@ const graphData: IGraphData = {
 };
 const graphSettings: IGraphSettings = { log: true };
 
-const graph = await Graph.init(graphData, graphSettings);
-console.log(graph);
+const path = await Graph.calcPath(graphData, graphSettings);
+console.log(path);

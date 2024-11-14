@@ -19,7 +19,7 @@ export interface IGraphSettings {
 	log: boolean;
 }
 
-export const init = async (
+export const calcPath = async (
 	data: IGraphData,
 	settings?: Partial<IGraphSettings>,
 ): Promise<Point[]> => {
