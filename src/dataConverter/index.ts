@@ -1,9 +1,8 @@
 import { Graph, type IGraphData } from "@/aStarAlgorithm";
 import type { ConnectionPoint, Point, Rect } from "@/models";
 
-import { getRectDimensions } from "@/dataConverter/getRectDimensions";
-import { getRectObstacles } from "@/dataConverter/getRectObstacles";
 import { isAngleCorrect, isPointOnRectBoundary } from "@/dataConverter/isValid";
+import { getRectDimensions, getRectObstacles } from "@/dataConverter/rect";
 
 export const dataConverter = async (
 	rect1: Rect,
