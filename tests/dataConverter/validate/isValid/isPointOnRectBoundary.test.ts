@@ -1,4 +1,4 @@
-import { isPointOnRectBoundary } from "@/dataConverter/isValid";
+import { isPointOnRectBoundary } from "@/dataConverter/validate";
 import { describe, expect, it } from "vitest";
 
 const rect = {
