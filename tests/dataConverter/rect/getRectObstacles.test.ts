@@ -1,4 +1,4 @@
-import { getRectObstacles } from "@/dataConverter/getRectObstacles";
+import { getRectObstacles } from "@/dataConverter/rect";
 import { describe, expect, it } from "vitest";
 
 describe("getRectObstacles", () => {
