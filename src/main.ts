@@ -13,4 +13,11 @@ const rect2: Rect = {
 	size: { width: 50, height: 50 },
 };
 
-Canvas("board").drawRect(rect1).drawRect(rect2);
+window.addEventListener("load", canvasSetup, { once: true });
+window.addEventListener("resize", canvasSetup, { once: true });
+
+function canvasSetup() {
+	Canvas("board").drawRect(rect1).drawRect(rect2);
+
+	window.requestAnimationFrame(canvasSetup);
+}
