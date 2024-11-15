@@ -1,16 +1,22 @@
-// make Ctx with same pattern as a Render
 import * as Ctx from "@/canvas/ctx";
 import { type IDraw, drawRect } from "@/canvas/draw";
 import * as Render from "@/canvas/render";
 
-type TCanvas = (id: string) => IDraw;
+type ICanvasSettings = {
+	scale: boolean;
+};
+type TCanvas = (id: string, settings?: Partial<ICanvasSettings>) => IDraw;
 
-export const Canvas: TCanvas = (id) => {
-	// init
+const defaultSettings: ICanvasSettings = {
+	scale: true,
+};
+
+export const Canvas: TCanvas = (id, settings = defaultSettings) => {
+	// Необходимо для инициализации
 	Ctx.setCtx(id);
 
-	// settings
-	Render.clear().scale();
+	// Настройки
+	settings.scale ?? Render.clear().scale();
 
 	return { drawRect };
 };
