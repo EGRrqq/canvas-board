@@ -3,8 +3,7 @@ import type { ConnectionPoint, Point, Rect } from "@/models";
 
 import { getRectDimensions } from "@/dataConverter/getRectDimensions";
 import { getRectObstacles } from "@/dataConverter/getRectObstacles";
-import { isAngleCorrect } from "@/dataConverter/isAngleCorrect";
-import { isPointOnRectBoundary } from "@/dataConverter/isPointOnRectBoundary";
+import { isAngleCorrect, isPointOnRectBoundary } from "@/dataConverter/isValid";
 
 export const dataConverter = async (
 	rect1: Rect,

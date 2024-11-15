@@ -1,4 +1,4 @@
-import { isAngleCorrect } from "@/dataConverter/isAngleCorrect";
+import { isAngleCorrect } from "@/dataConverter/isValid";
 import { describe, expect, it } from "vitest";
 
 const rect = {
