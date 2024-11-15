@@ -1,5 +1,5 @@
 import * as Ctx from "@/canvas/ctx";
-import type { IDraw } from "@/canvas/draw";
+import { Draw, type IDraw } from "@/canvas/draw";
 import type { Rect } from "@/models";
 
 export type TDrawRect = (rect: Rect) => IDraw;
@@ -17,5 +17,5 @@ export const drawRect: TDrawRect = (rect) => {
 		size.height,
 	);
 
-	return { drawRect };
+	return Draw;
 };

@@ -1,7 +1,10 @@
 import * as Ctx from "@/canvas/ctx";
-import { type IDraw, drawRect } from "@/canvas/draw";
+import { Draw, type IDraw } from "@/canvas/draw";
 import * as Render from "@/canvas/render";
 
+// place for all settings reexport
+
+// move canvas out from index.ts
 type ICanvasSettings = {};
 type TCanvas = (id: string, settings?: Partial<ICanvasSettings>) => IDraw;
 
@@ -12,5 +15,5 @@ export const Canvas: TCanvas = (id, settings = defaultSettings) => {
 	Ctx.setCtx(id);
 	Render.clear().scale();
 
-	return { drawRect };
+	return Draw;
 };
