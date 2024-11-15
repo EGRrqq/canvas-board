@@ -1,4 +1,4 @@
-import { Ctx } from "@/canvas/ctx";
+import * as Ctx from "@/canvas/ctx";
 import type { IDraw } from "@/canvas/draw";
 import type { Rect } from "@/models";
 

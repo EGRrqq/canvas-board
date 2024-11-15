@@ -1,4 +1,5 @@
-import { Ctx } from "@/canvas/ctx";
+// make Ctx with same pattern as a Render
+import * as Ctx from "@/canvas/ctx";
 import { type IDraw, drawRect } from "@/canvas/draw";
 import * as Render from "@/canvas/render";
 

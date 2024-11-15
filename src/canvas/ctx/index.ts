@@ -2,12 +2,8 @@ let CTX: CanvasRenderingContext2D | null = null;
 
 type TGetCtx = () => CanvasRenderingContext2D;
 type TSetCtx = (id: string) => { getCtx: TGetCtx };
-interface ICtx {
-	setCtx: TSetCtx;
-	getCtx: TGetCtx;
-}
 
-const setCtx: TSetCtx = (id) => {
+export const setCtx: TSetCtx = (id) => {
 	const canvas = document.getElementById(id);
 
 	if (!(canvas instanceof HTMLCanvasElement))
@@ -18,10 +14,8 @@ const setCtx: TSetCtx = (id) => {
 	return { getCtx };
 };
 
-const getCtx: TGetCtx = () => {
+export const getCtx: TGetCtx = () => {
 	if (!CTX) throw new Error("Ошибка во время получения 2д контекста");
 
 	return CTX;
 };
-
-export const Ctx: ICtx = { setCtx, getCtx };
