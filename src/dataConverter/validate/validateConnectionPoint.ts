@@ -1,12 +1,25 @@
+import {
+	getValidAngles,
+	getValidConnectionPoints,
+} from "@/dataConverter/validate/getValid";
+import {
+	isAngleCorrect,
+	isPointOnRectBoundary,
+	isRect,
+} from "@/dataConverter/validate/isValid";
 import type { ConnectionPoint, Rect } from "@/models";
-import { getValidAngles, getValidConnectionPoints } from "./getValid";
-import { isAngleCorrect, isPointOnRectBoundary } from "./isValid";
 
 export const validateConnectionPoint = (
 	cPoint: ConnectionPoint,
 	rect: Rect,
 	pointName: string,
 ): void => {
+	if (!isRect(rect)) {
+		throw new Error(
+			`Прямоугольник имеет нулевые размеры.\nТекущие размеры: ширина = ${rect.size.width}, высота = ${rect.size.height}`,
+		);
+	}
+
 	if (!isPointOnRectBoundary(cPoint.point, rect)) {
 		const validPoints = getValidConnectionPoints(rect);
 		throw new Error(
