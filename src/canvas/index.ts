@@ -4,15 +4,21 @@ import { Render } from "@/canvas/render";
 
 // place for all settings reexport
 
-// move canvas out from index.ts
-type ICanvasSettings = {};
+type ICanvasSettings = {
+	alpha: boolean;
+};
+
 type TCanvas = (id: string, settings?: Partial<ICanvasSettings>) => IDraw;
 
-const defaultSettings: ICanvasSettings = {};
+const defaultSettings: ICanvasSettings = {
+	alpha: false,
+};
 
-export const Canvas: TCanvas = (id, settings = defaultSettings) => {
+// move canvas out from index.ts
+export const Canvas: TCanvas = (id, settings) => {
+	const s = { ...defaultSettings, ...settings };
 	// Необходимо для инициализации
-	Ctx.setCtx(id);
+	Ctx.setCtx(id, { alpha: s.alpha });
 	Render.clear().scale();
 
 	return Draw;

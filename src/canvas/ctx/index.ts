@@ -1,4 +1,4 @@
-import { getCtx, setCtx, type TGetCtx, type TSetCtx } from "./context";
+import { type TGetCtx, type TSetCtx, getCtx, setCtx } from "./context";
 
 interface ICtx {
 	setCtx: TSetCtx;
@@ -6,3 +6,4 @@ interface ICtx {
 }
 
 export const Ctx: ICtx = { getCtx, setCtx };
+export type { ICtxSettings } from "@/canvas/ctx/context";
