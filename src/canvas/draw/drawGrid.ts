@@ -1,4 +1,4 @@
-import * as Ctx from "@/canvas/ctx";
+import { Ctx } from "@/canvas/ctx";
 import { Draw, type IDraw } from "@/canvas/draw";
 
 interface IDrawGridSettings {

@@ -1,4 +1,4 @@
-import * as Ctx from "@/canvas/ctx";
+import { Ctx } from "@/canvas/ctx";
 import { type TClear, clear } from "@/canvas/render/clear";
 
 export type TScale = () => { clear: TClear };

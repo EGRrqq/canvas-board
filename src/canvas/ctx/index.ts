@@ -1,21 +1,8 @@
-let CTX: CanvasRenderingContext2D | null = null;
+import { getCtx, setCtx, type TGetCtx, type TSetCtx } from "./context";
 
-type TGetCtx = () => CanvasRenderingContext2D;
-type TSetCtx = (id: string) => { getCtx: TGetCtx };
+interface ICtx {
+	setCtx: TSetCtx;
+	getCtx: TGetCtx;
+}
 
-export const setCtx: TSetCtx = (id) => {
-	const canvas = document.getElementById(id);
-
-	if (!(canvas instanceof HTMLCanvasElement))
-		throw new Error(`canvas елемент c id: '${id}' не найден`);
-
-	CTX = canvas.getContext("2d");
-
-	return { getCtx };
-};
-
-export const getCtx: TGetCtx = () => {
-	if (!CTX) throw new Error("Ошибка во время получения 2д контекста");
-
-	return CTX;
-};
+export const Ctx: ICtx = { getCtx, setCtx };
