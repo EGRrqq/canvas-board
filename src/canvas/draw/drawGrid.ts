@@ -8,7 +8,7 @@ export interface IDrawGridSettings {
 }
 const defaultSettings: IDrawGridSettings = {
 	gridSize: 10,
-	strokeStyle: "#000",
+	strokeStyle: "#ccc",
 	lineWidth: 0.5,
 };
 
