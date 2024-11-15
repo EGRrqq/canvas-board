@@ -3,6 +3,7 @@ import type { ConnectionPoint, Point, Rect } from "@/models";
 
 import { isAngleCorrect, isPointOnRectBoundary } from "@/dataConverter/isValid";
 import { getRectDimensions, getRectObstacles } from "@/dataConverter/rect";
+import { getValidAngles, getValidConnectionPoints } from "./getValid";
 
 export const dataConverter = async (
 	rect1: Rect,
@@ -38,11 +39,19 @@ const validateConnectionPoint = (
 	pointName: string,
 ): void => {
 	if (!isPointOnRectBoundary(cPoint.point, rect)) {
-		throw new Error(`${pointName} не лежит на грани прямоугольника`);
+		const validPoints = getValidConnectionPoints(rect);
+		throw new Error(
+			`${pointName} не лежит на грани прямоугольника. Допустимые точки: ${JSON.stringify(
+				validPoints,
+			)}`,
+		);
 	}
 	if (!isAngleCorrect(cPoint.angle, cPoint.point, rect)) {
+		const validAngles = getValidAngles(cPoint.point, rect);
 		throw new Error(
-			`Угол ${pointName} не перпендикулярен грани прямоугольника`,
+			`Угол ${pointName} не перпендикулярен грани прямоугольника. Допустимые углы: ${JSON.stringify(
+				validAngles,
+			)}`,
 		);
 	}
 };
