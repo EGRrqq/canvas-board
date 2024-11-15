@@ -18,7 +18,7 @@ describe("dataConverter", () => {
 		];
 		vi.spyOn(Graph, "calcPath").mockResolvedValue(mockPath);
 
-		const result = await dataConverter(rect1, rect2, cPoint1, cPoint2);
+		const result = await dataConverter({ rect1, rect2, cPoint1, cPoint2 });
 		expect(result).toEqual(mockPath);
 	});
 });
