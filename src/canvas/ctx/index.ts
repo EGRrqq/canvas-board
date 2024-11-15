@@ -1,4 +1,9 @@
-import { type TGetCtx, type TSetCtx, getCtx, setCtx } from "./context";
+import {
+	type TGetCtx,
+	type TSetCtx,
+	getCtx,
+	setCtx,
+} from "@/canvas/ctx/context";
 
 interface ICtx {
 	setCtx: TSetCtx;
