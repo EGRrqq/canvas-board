@@ -2,7 +2,7 @@ import { Ctx } from "@/canvas/ctx";
 import { Draw, type IDraw } from "@/canvas/draw";
 import type { Rect } from "@/models";
 
-interface IDrawRectSettings {
+export interface IDrawRectSettings {
 	fillStyle: CanvasFillStrokeStyles["fillStyle"];
 	// add rect-style settings = "fill" | "stroke"
 }

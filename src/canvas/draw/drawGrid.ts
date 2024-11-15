@@ -1,7 +1,7 @@
 import { Ctx } from "@/canvas/ctx";
 import { Draw, type IDraw } from "@/canvas/draw";
 
-interface IDrawGridSettings {
+export interface IDrawGridSettings {
 	gridSize: number;
 	strokeStyle: CanvasFillStrokeStyles["strokeStyle"];
 	lineWidth: CanvasPathDrawingStyles["lineWidth"];
