@@ -1,6 +1,6 @@
 import { Ctx } from "@/canvas/ctx";
 import { Draw, type IDraw } from "@/canvas/draw";
-import * as Render from "@/canvas/render";
+import { Render } from "@/canvas/render";
 
 // place for all settings reexport
 
