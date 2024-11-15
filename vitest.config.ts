@@ -5,7 +5,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
 	test: {
-		coverage: { provider: "v8" },
+		coverage: {
+			provider: "v8",
+			include: ["src/aStarAlgorithm", "src/dataConverter"],
+		},
 		typecheck: {
 			include: ["tests/**/*.ts"],
 			ignoreSourceErrors: true,
