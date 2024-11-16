@@ -6,7 +6,12 @@ export const validatePoint = (
 	point: Point,
 	pointName: string,
 ): void => {
+	const graphHeight = graph.length;
+	const graphWidth = graphHeight > 0 ? graph[0].length : 0;
+
 	if (!graph[point.y] || !graph[point.y][point.x]) {
-		throw new Error(`${pointName} (${point.x}, ${point.y}) вне границ графа`);
+		throw new Error(
+			`${pointName} (${point.x}, ${point.y}) нет в графе размером ${graphWidth}x${graphHeight}\nВажно помнить, про index(точки) - 1`,
+		);
 	}
 };

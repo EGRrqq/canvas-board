@@ -27,8 +27,8 @@ export const calcPath = async (
 	const graph = createGraph(data);
 
 	// Проверка на корректность стартовой и конечной точек
-	validatePoint(graph, data.start, "Стартовая точка");
-	validatePoint(graph, data.end, "Конечная точка");
+	validatePoint(graph, data.start, "Стартовой точки");
+	validatePoint(graph, data.end, "Конечной точки");
 
 	// Устанавливаем препятствия
 	setObstacles(graph, data.obstacles, data.start, data.end);

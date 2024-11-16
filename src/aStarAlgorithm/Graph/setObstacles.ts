@@ -11,7 +11,7 @@ export const setObstacles = (
 	for (const { x, y } of obstacles) {
 		// Проверка на выход за границы графа
 		if (!graph[y]?.[x]) {
-			validatePoint(graph, { x, y }, "Препятствие");
+			validatePoint(graph, { x, y }, "Препятствия");
 		}
 
 		// Устанавливаем препятствие, если это не стартовая или конечная точка

@@ -15,10 +15,10 @@ describe("validatePoint", () => {
 
 	it("должен выбросить ошибку, если точка не находится в графе", () => {
 		const point = { x: 1, y: 1 };
-		const pointName = "Точкa";
+		const pointName = "Точки";
 
 		expect(() => validatePoint(graph, point, pointName)).toThrow(
-			`${pointName} (1, 1) вне границ графа`,
+			`${pointName} (1, 1) нет в графе размером 1x1`,
 		);
 	});
 });
