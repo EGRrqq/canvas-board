@@ -1,4 +1,4 @@
-import { validatePoint } from "@/aStarAlgorithm/Graph/validatePoint";
+import { validatePoint } from "@/aStarAlgorithm/validate";
 import type { Point, TGraphNode } from "@/models";
 import { describe, expect, it } from "vitest";
 

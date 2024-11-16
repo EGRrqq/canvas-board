@@ -1,4 +1,4 @@
-import { createKey } from "@/aStarAlgorithm/Graph/createKey";
+import { createKey } from "@/aStarAlgorithm/utils";
 import type { Point, TGraphNode } from "@/models";
 
 export const validatePoint = (

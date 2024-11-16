@@ -1,4 +1,5 @@
-import { createKey } from "@/aStarAlgorithm/Graph/createKey";
+import { getNeighbors } from "@/aStarAlgorithm/iteration/getNeighbors";
+import { reconstructPath } from "@/aStarAlgorithm/iteration/reconstructPath";
 import type { Point, TGraphNode } from "@/models";
 
 export const findPath = async (
@@ -50,41 +51,4 @@ export const findPath = async (
 
 	// Если мы вышли из цикла, значит путь не найден
 	throw new Error("Путь не найден");
-};
-
-// Функция для восстановления пути
-const reconstructPath = (endNode: TGraphNode): Point[] => {
-	const path: Point[] = [];
-	let currentNode: TGraphNode | undefined = endNode;
-
-	while (currentNode) {
-		path.push({ x: currentNode.x, y: currentNode.y });
-		currentNode = currentNode.parent; // Переход к родительскому узлу
-	}
-
-	return path.reverse(); // Возвращаем путь в правильном порядке
-};
-
-// Функция для получения соседей узла
-const getNeighbors = (
-	graph: Map<string, TGraphNode>,
-	node: TGraphNode,
-): TGraphNode[] => {
-	const neighbors: TGraphNode[] = [];
-	const directions = [
-		{ x: 0, y: -1 }, // Вверх
-		{ x: 1, y: 0 }, // Вправо
-		{ x: 0, y: 1 }, // Вниз
-		{ x: -1, y: 0 }, // Влево
-	];
-
-	for (const { x, y } of directions) {
-		const neighborKey = createKey({ x: node.x + x, y: node.y + y });
-		const neighbor = graph.get(neighborKey);
-		if (neighbor) {
-			neighbors.push(neighbor);
-		}
-	}
-
-	return neighbors;
 };

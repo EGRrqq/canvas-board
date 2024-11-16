@@ -1,5 +1,5 @@
 import type { IGraphData } from "@/aStarAlgorithm";
-import { calcPath } from "@/aStarAlgorithm/Graph";
+import { calcPath } from "@/aStarAlgorithm/aStar";
 import { describe, expect, it } from "vitest";
 
 describe("calcPath", () => {

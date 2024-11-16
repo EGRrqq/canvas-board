@@ -1,4 +1,4 @@
-import { createKey } from "@/aStarAlgorithm/Graph/createKey";
+import { createKey } from "@/aStarAlgorithm/utils";
 import type { Point } from "@/models";
 import { describe, expect, it } from "vitest";
 

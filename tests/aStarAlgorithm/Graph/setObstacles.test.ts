@@ -1,6 +1,5 @@
 import { setObstacles } from "@/aStarAlgorithm/Graph/setObstacles";
 import type { Point, TGraph } from "@/models";
-// setObstacles.test.ts
 import { describe, expect, it } from "vitest";
 
 describe("setObstacles", () => {

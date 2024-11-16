@@ -1,4 +1,4 @@
-import { findPath } from "@/aStarAlgorithm/Graph/findPath";
+import { findPath } from "@/aStarAlgorithm/iteration";
 import type { TGraphNode } from "@/models";
 import { describe, expect, it } from "vitest";
 

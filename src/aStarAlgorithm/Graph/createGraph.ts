@@ -1,5 +1,5 @@
 import type { IGraphData } from "@/aStarAlgorithm";
-import { createKey } from "@/aStarAlgorithm/Graph/createKey";
+import { createKey } from "@/aStarAlgorithm/utils";
 import type { TGraph } from "@/models";
 
 export const createGraph = (data: IGraphData): TGraph => {

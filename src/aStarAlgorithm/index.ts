@@ -1,2 +1,2 @@
-export * as Graph from "@/aStarAlgorithm/Graph";
-export type { IGraphData } from "@/aStarAlgorithm/Graph";
+export * as Graph from "@/aStarAlgorithm/aStar";
+export type { IGraphData } from "@/aStarAlgorithm/aStar";
