@@ -1,4 +1,4 @@
-import type { TGraph, TGraphNode } from "@/aStarAlgorithm/models";
+import type { TGraph, TGraphNode } from "@/models";
 
 export const log = async (
 	graph: TGraph,

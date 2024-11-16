@@ -1,5 +1,4 @@
-import type { TGraph } from "@/aStarAlgorithm";
-import type { Point } from "@/models";
+import type { Point, TGraph } from "@/models";
 import { validatePoint } from "./validatePoint";
 
 export const setObstacles = (

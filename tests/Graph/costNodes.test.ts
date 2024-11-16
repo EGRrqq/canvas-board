@@ -1,5 +1,5 @@
-import type { TGraph } from "@/aStarAlgorithm";
 import { costNodes } from "@/aStarAlgorithm/Graph/costNodes";
+import type { TGraph } from "@/models";
 import { describe, expect, it } from "vitest";
 
 const graph: TGraph = [

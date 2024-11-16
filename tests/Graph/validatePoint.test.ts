@@ -1,5 +1,5 @@
-import type { TGraph } from "@/aStarAlgorithm";
 import { validatePoint } from "@/aStarAlgorithm/Graph/validatePoint";
+import type { TGraph } from "@/models";
 import { describe, expect, it } from "vitest";
 
 const graph: TGraph = [

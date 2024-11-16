@@ -1,5 +1,4 @@
-import type { TGraph, TGraphNode } from "@/aStarAlgorithm/models";
-import type { Point } from "@/models";
+import type { Point, TGraph, TGraphNode } from "@/models";
 
 export const findPath = async (
 	graph: TGraph,
