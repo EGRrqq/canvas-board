@@ -1,28 +1,24 @@
-import type { Point, TGraph, TGraphNode } from "@/models";
+import { createKey } from "@/aStarAlgorithm/Graph/createKey";
+import type { Point, TGraphNode } from "@/models";
 
 export const findPath = async (
-	graph: TGraph,
+	graph: Map<string, TGraphNode>,
 	startNode: TGraphNode,
 	endNode: TGraphNode,
 ): Promise<Point[]> => {
 	// Инициализация буферов
-	const openNodes: TGraphNode[] = [startNode];
-	const closedNodes: TGraphNode[] = [];
+	const openNodes = new Set<TGraphNode>([startNode]);
+	const closedNodes = new Set<TGraphNode>();
 
-	while (openNodes.length > 0) {
+	while (openNodes.size > 0) {
 		// 1. Найти узел с наименьшим fCost
-		let currentNode = openNodes[0];
-		let currentIndex = 0;
-		for (let i = 1; i < openNodes.length; i++) {
-			if (openNodes[i].fCost < currentNode.fCost) {
-				currentNode = openNodes[i];
-				currentIndex = i;
-			}
-		}
+		const currentNode = Array.from(openNodes).reduce((minNode, node) =>
+			node.fCost < minNode.fCost ? node : minNode,
+		);
 
 		// 2. Переместить текущий узел в closedNodes
-		openNodes.splice(currentIndex, 1);
-		closedNodes.push(currentNode);
+		openNodes.delete(currentNode);
+		closedNodes.add(currentNode);
 
 		// 3. Проверка на конечный узел
 		if (currentNode === endNode) {
@@ -32,21 +28,21 @@ export const findPath = async (
 		// 4. Проверка соседних узлов
 		const neighbors = getNeighbors(graph, currentNode);
 		for (const neighbor of neighbors) {
-			if (!neighbor.traversable || closedNodes.includes(neighbor)) {
+			if (!neighbor.traversable || closedNodes.has(neighbor)) {
 				continue; // Игнорируем непроходимые или уже проверенные узлы
 			}
 
 			// 5. Обновление родителя и добавление в openNodes
 			const tentativeGCost = currentNode.gCost + 1; // Предполагаемая стоимость (можно изменить в зависимости от расстояния)
-			if (!openNodes.includes(neighbor) || tentativeGCost < neighbor.gCost) {
+			if (!openNodes.has(neighbor) || tentativeGCost < neighbor.gCost) {
 				neighbor.parent = currentNode; // Устанавливаем текущий узел как родитель
 				neighbor.gCost = tentativeGCost; // Обновляем gCost
 				neighbor.hCost =
 					Math.abs(neighbor.x - endNode.x) + Math.abs(neighbor.y - endNode.y); // Обновляем hCost
 				neighbor.fCost = neighbor.gCost + neighbor.hCost; // Обновляем fCost
 
-				if (!openNodes.includes(neighbor)) {
-					openNodes.push(neighbor);
+				if (!openNodes.has(neighbor)) {
+					openNodes.add(neighbor);
 				}
 			}
 		}
@@ -70,7 +66,10 @@ const reconstructPath = (endNode: TGraphNode): Point[] => {
 };
 
 // Функция для получения соседей узла
-const getNeighbors = (graph: TGraph, node: TGraphNode): TGraphNode[] => {
+const getNeighbors = (
+	graph: Map<string, TGraphNode>,
+	node: TGraphNode,
+): TGraphNode[] => {
 	const neighbors: TGraphNode[] = [];
 	const directions = [
 		{ x: 0, y: -1 }, // Вверх
@@ -80,11 +79,10 @@ const getNeighbors = (graph: TGraph, node: TGraphNode): TGraphNode[] => {
 	];
 
 	for (const { x, y } of directions) {
-		const neighborX = node.x + x;
-		const neighborY = node.y + y;
-
-		if (graph[neighborY]?.[neighborX]) {
-			neighbors.push(graph[neighborY][neighborX]);
+		const neighborKey = createKey({ x: node.x + x, y: node.y + y });
+		const neighbor = graph.get(neighborKey);
+		if (neighbor) {
+			neighbors.push(neighbor);
 		}
 	}
 

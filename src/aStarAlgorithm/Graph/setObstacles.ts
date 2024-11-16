@@ -8,17 +8,14 @@ export const setObstacles = (
 	endNode: Point,
 ): void => {
 	for (const { x, y } of obstacles) {
-		// Проверка на выход за границы графа
-		if (!graph[y]?.[x]) {
-			validatePoint(graph, { x, y }, "Препятствия");
-		}
+		const node = validatePoint(graph, { x, y }, "Препятствие");
 
 		// Устанавливаем препятствие, если это не стартовая или конечная точка
 		if (
 			!(startNode.x === x && startNode.y === y) &&
 			!(endNode.x === x && endNode.y === y)
 		) {
-			graph[y][x].traversable = false;
+			node.traversable = false;
 		}
 	}
 };

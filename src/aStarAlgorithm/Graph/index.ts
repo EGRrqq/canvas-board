@@ -3,7 +3,6 @@ import type { Point } from "@/models";
 import { costNodes } from "@/aStarAlgorithm/Graph/costNodes";
 import { createGraph } from "@/aStarAlgorithm/Graph/createGraph";
 import { findPath } from "@/aStarAlgorithm/Graph/findPath";
-import { log } from "@/aStarAlgorithm/Graph/log";
 import { setObstacles } from "@/aStarAlgorithm/Graph/setObstacles";
 import { validatePoint } from "@/aStarAlgorithm/Graph/validatePoint";
 
@@ -15,39 +14,28 @@ export interface IGraphData {
 	height: number;
 }
 
-export interface IGraphSettings {
-	log: boolean;
-}
+type TCalcPath = (data: IGraphData) => Promise<Point[]>;
 
-export const calcPath = async (
-	data: IGraphData,
-	settings?: Partial<IGraphSettings>,
-): Promise<Point[]> => {
-	// Создаем граф
+export const calcPath: TCalcPath = async (data) => {
+	// Создание графа
 	const graph = createGraph(data);
 
-	// Проверка на корректность стартовой и конечной точек
-	validatePoint(graph, data.start, "Стартовой точки");
-	validatePoint(graph, data.end, "Конечной точки");
-
-	// Устанавливаем препятствия
+	// Установка препятствий
 	setObstacles(graph, data.obstacles, data.start, data.end);
 
-	// Получаем стартовую и конечную точки
-	const startNode = graph[data.start.y][data.start.x];
-	const endNode = graph[data.end.y][data.end.x];
+	// Получение начальную и конечную точек
+	const startNode = validatePoint(graph, data.start, "Конечной точки");
+	const endNode = validatePoint(graph, data.end, "Конечной точки");
+
+	if (!startNode || !endNode) {
+		throw new Error("Стартовая или конечная точка не найдена в графе");
+	}
 
 	// Расчет стоимости узлов
 	await costNodes(graph, startNode, endNode);
 
-	// Запускаем поиск пути
+	// Поиск пути
 	const path = await findPath(graph, startNode, endNode);
-
-	// Логируем граф, если требуется
-	settings?.log &&
-		path.map(
-			async ({ x, y }) => await log(graph, startNode, endNode, graph[y][x]),
-		);
 
 	return path;
 };

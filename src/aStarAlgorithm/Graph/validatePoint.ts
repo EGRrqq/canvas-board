@@ -1,16 +1,18 @@
-import type { Point, TGraph } from "@/models";
+import { createKey } from "@/aStarAlgorithm/Graph/createKey";
+import type { Point, TGraphNode } from "@/models";
 
 export const validatePoint = (
-	graph: TGraph,
+	graph: Map<string, TGraphNode>,
 	point: Point,
 	pointName: string,
-): void => {
-	const graphHeight = graph.length;
-	const graphWidth = graphHeight > 0 ? graph[0].length : 0;
+): TGraphNode => {
+	const key = createKey(point);
 
-	if (!graph[point.y] || !graph[point.y][point.x]) {
-		throw new Error(
-			`${pointName} (${point.x}, ${point.y}) нет в графе размером ${graphWidth}x${graphHeight}\nВажно помнить, про index(точки) - 1`,
-		);
+	const node = graph.get(key);
+
+	if (!graph.has(key) || !node) {
+		throw new Error(`${pointName} (${point.x}, ${point.y}) нет в графе`);
 	}
+
+	return node;
 };

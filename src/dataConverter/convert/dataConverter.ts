@@ -10,22 +10,10 @@ export interface IConverterData {
 	cPoint1: ConnectionPoint;
 	cPoint2: ConnectionPoint;
 }
-export interface IConverterSettings {
-	log: boolean;
-}
-const defaultSettings: IConverterSettings = {
-	log: true,
-};
 
-type TDataConverter = (
-	data: IConverterData,
-	settings?: Partial<IConverterSettings>,
-) => Promise<Point[]>;
+type TDataConverter = (data: IConverterData) => Promise<Point[]>;
 
-export const dataConverter: TDataConverter = async (data, settings) => {
-	// Объединение кастомных настроек с дефолтными значениями
-	const s = { ...defaultSettings, ...settings };
-
+export const dataConverter: TDataConverter = async (data) => {
 	// Проверка корректности точек подсоединения
 	validateConnectionPoint(data.cPoint1, data.rect1, "Точка подсоединения 1");
 	validateConnectionPoint(data.cPoint2, data.rect2, "Точка подсоединения 2");
@@ -45,7 +33,7 @@ export const dataConverter: TDataConverter = async (data, settings) => {
 	};
 
 	// Вычисление пути
-	const path = await Graph.calcPath(graphData, { log: s.log });
+	const path = await Graph.calcPath(graphData);
 
 	return path;
 };

@@ -8,4 +8,4 @@ export type TGraphNode = {
 	parent?: TGraphNode; // Узел-родитель для восстановления пути
 };
 
-export type TGraph = TGraphNode[][];
+export type TGraph = Map<string, TGraphNode>;

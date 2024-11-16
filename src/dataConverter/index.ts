@@ -1,5 +1,1 @@
-export {
-	dataConverter,
-	type IConverterSettings,
-	type IConverterData,
-} from "@/dataConverter/convert";
+export * from "@/dataConverter/convert";
