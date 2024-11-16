@@ -2,6 +2,7 @@ import type { Point } from "@/models";
 
 import { costNodes, createGraph, setObstacles } from "@/aStarAlgorithm/Graph";
 import { findPath } from "@/aStarAlgorithm/iteration";
+import { roundPoint, roundPoints } from "@/aStarAlgorithm/utils";
 import { validatePoint } from "@/aStarAlgorithm/validate";
 
 export interface IGraphData {
@@ -15,19 +16,28 @@ export interface IGraphData {
 type TCalcPath = (data: IGraphData) => Promise<Point[]>;
 
 export const calcPath: TCalcPath = async (data) => {
-	// Создание графа
-	const graph = createGraph(data);
+	// Округление координат стартовой и конечной точек
+	const roundedStart = roundPoint(data.start);
+	const roundedEnd = roundPoint(data.end);
+
+	// Округление координат препятствий
+	const roundedObstacles = roundPoints(data.obstacles);
+
+	// Создаем граф
+	const graph = createGraph({
+		start: roundedStart,
+		end: roundedEnd,
+		obstacles: roundedObstacles,
+		width: data.width,
+		height: data.height,
+	});
 
 	// Установка препятствий
-	setObstacles(graph, data.obstacles, data.start, data.end);
+	setObstacles(graph, roundedObstacles, roundedStart, roundedEnd);
 
 	// Получение начальную и конечную точек
-	const startNode = validatePoint(graph, data.start, "Конечной точки");
-	const endNode = validatePoint(graph, data.end, "Конечной точки");
-
-	if (!startNode || !endNode) {
-		throw new Error("Стартовая или конечная точка не найдена в графе");
-	}
+	const startNode = validatePoint(graph, roundedStart, "Начальной точки");
+	const endNode = validatePoint(graph, roundedEnd, "Конечной точки");
 
 	// Расчет стоимости узлов
 	await costNodes(graph, startNode, endNode);

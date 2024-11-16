@@ -59,7 +59,7 @@ describe("calcPath", () => {
 		await expect(calcPath(data)).rejects.toThrow("Путь не найден");
 	});
 
-	it("должен выбросить ошибку, если стартовая или конечная точка не найдена в графе", async () => {
+	it("должен выбросить ошибку, если стартовая точка не найдена в графе", async () => {
 		const data: IGraphData = {
 			start: { x: -1, y: -1 },
 			end: { x: 2, y: 2 },
@@ -69,7 +69,21 @@ describe("calcPath", () => {
 		};
 
 		await expect(calcPath(data)).rejects.toThrow(
-			"Конечной точки (-1, -1) нет в графе",
+			"Начальной точки (-1, -1) нет в графе",
+		);
+	});
+
+	it("должен выбросить ошибку, если конечная точка не найдена в графе", async () => {
+		const data: IGraphData = {
+			start: { x: 2, y: 2 },
+			end: { x: 2, y: -2 },
+			obstacles: [],
+			width: 3,
+			height: 3,
+		};
+
+		await expect(calcPath(data)).rejects.toThrow(
+			"Конечной точки (2, -2) нет в графе",
 		);
 	});
 });
