@@ -22,12 +22,12 @@ describe("getRectDimensions", () => {
 			size: { width: 20, height: 10 },
 		};
 		const rect2 = {
-			position: { x: 10, y: 10 },
+			position: { x: 30, y: 10 },
 			size: { width: 10, height: 20 },
 		};
 
 		const result = getRectDimensions(rect1, rect2);
-		expect(result).toEqual({ width: 30, height: 40 });
+		expect(result).toEqual({ width: 70, height: 40 });
 	});
 
 	it("должен корректно вычислять размеры графа для прямоугольников с отрицательными координатами", () => {
