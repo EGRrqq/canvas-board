@@ -1,4 +1,5 @@
 import { Canvas } from "@/canvas";
+import type { TBoard } from "@/canvas/board";
 import { dataConverter } from "@/dataConverter";
 import type { Point, Rect } from "@/models";
 
@@ -16,14 +17,26 @@ const rect2: Rect = {
 const cPoint2 = { point: { x: 225, y: 50 }, angle: 90 };
 
 // Рендер
-function canvasDraw(path: Point[]) {
-	Canvas("board").drawGrid().drawRect(rect1).drawRect(rect2).drawPath(path);
+function canvasDraw(brd: ReturnType<TBoard>, path: Point[]) {
+	brd
+		.clear()
+		.scale()
+		.updateSettings({ bgColor: "#fff" })
+		.drawGrid()
+		.drawRect(rect1)
+		.drawRect(rect2)
+		.drawPath(path);
 
-	window.requestAnimationFrame(() => canvasDraw(path));
+	window.requestAnimationFrame(() => canvasDraw(brd, path));
 }
 
 // Инит
 export async function canvasSetup() {
+	// Возможно придется двигать path в canvasDraw функцию
+	// - когда интерактивность появиться
+	// - нужно двигать с флагом на рендер вместе, чтобы постоянно пересчета не было
+	const brd = Canvas("board");
+
 	const path = await dataConverter({ rect1, rect2, cPoint1, cPoint2 });
-	canvasDraw(path);
+	canvasDraw(brd, path);
 }
