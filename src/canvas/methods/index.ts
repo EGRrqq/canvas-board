@@ -1,21 +1,20 @@
 import { Ctx, type ICtx } from "@/canvas/ctx";
 import { Draw, type IDraw } from "@/canvas/methods/Draw";
-import { type TClearCanvas, clear } from "../view/clear";
+import { type IView, View } from "@/canvas/methods/view";
 import { type TUpdateSettings, updateSettings } from "./settings";
 
 // Интерфейс для контроллера
-export interface TMethods extends IDraw {
+export interface TMethods extends IDraw, IView {
 	updateSettings: TUpdateSettings;
 	getCtx: ICtx["getCtx"];
-	clear: () => TClearCanvas;
 }
 
 // Контроллер
 export const Methods: TMethods = {
 	...Draw,
+	...View,
 	updateSettings,
 	getCtx: Ctx.getCtx,
-	clear: () => clear("Canvas"),
 };
 
 // Настройки

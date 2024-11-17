@@ -1,6 +1,6 @@
 import { Ctx } from "@/canvas/ctx";
 import { type ISettings, Methods, type TMethods } from "@/canvas/methods";
-import { View } from "../view";
+import { View } from "canvas/methods/view";
 
 export interface IBoardSettings extends ISettings {
 	alpha: boolean;
@@ -24,7 +24,7 @@ export const Board: TBoard = (id, settings) => {
 
 	// Необходимо для инициализации
 	Ctx.setCtx(id, { alpha });
-	View.clear("Render").scale();
+	View.clear().scale();
 
 	// применяем настройки
 	Methods.updateSettings(s);
