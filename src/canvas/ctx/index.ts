@@ -6,7 +6,7 @@ import {
 } from "@/canvas/ctx/context";
 
 // Интерфейс для контроллера
-interface ICtx {
+export interface ICtx {
 	setCtx: TSetCtx;
 	getCtx: TGetCtx;
 }
