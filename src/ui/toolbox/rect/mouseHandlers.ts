@@ -31,9 +31,10 @@ const mouseMoveClosure: TMouseHandlerClosure =
 		});
 	};
 
-const mouseUpClosure: TMouseHandlerClosure = () => () => {
+const mouseUpClosure: TMouseHandlerClosure = (Board) => () => {
 	if (!currentRect) return;
 
+	Board.save(currentRect);
 	startPoint = null;
 	currentRect = null;
 };
