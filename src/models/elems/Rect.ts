@@ -1,5 +1,4 @@
-import type { Point } from "@/models/Point";
-import type { Size } from "@/models/Size";
+import type { Point, Size } from "@/models/base";
 
 export type Rect = {
 	position: Point; // координата центра прямоугольника

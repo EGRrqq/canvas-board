@@ -1,6 +1,6 @@
 import type { IDrawRectSettings } from "@/canvas";
 import type { IDrawPathSettings } from "@/canvas/draw";
-import type { Point, Size } from "@/models";
+import type { Point, Size } from "@/models/base";
 
 type IToolSettingsMap = {
 	rect: IDrawRectSettings;
@@ -8,7 +8,7 @@ type IToolSettingsMap = {
 };
 type TToolType = keyof IToolSettingsMap;
 
-interface ITool<TT extends TToolType> {
+export interface ITool<TT extends TToolType> {
 	type: TT;
 	settings: IToolSettingsMap[TT];
 }
