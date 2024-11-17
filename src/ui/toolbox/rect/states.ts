@@ -6,38 +6,20 @@ type TRectToolState = (Board: ReturnType<TCanvas>) => void;
 const logType = "rect";
 
 export const activateRect: TRectToolState = (Board) => {
-	Board.updateSettings({ css: { cursor: "crosshair" } });
 	Handlers.set(Board, RectClosures);
-	Board.getCtx().canvas.addEventListener(
-		"mousedown",
-		Handlers.get(logType).mouseDown,
-	);
-	Board.getCtx().canvas.addEventListener(
-		"mousemove",
-		Handlers.get(logType).mouseMove,
-	);
-	Board.getCtx().canvas.addEventListener(
-		"mouseup",
-		Handlers.get(logType).mouseUp,
-	);
+	Board.updateSettings({ css: { cursor: "crosshair" } });
 
-	console.log("runnin");
-	deactivateRect(Board);
+	const canvasElem = Board.getCtx().canvas;
+	canvasElem.addEventListener("mousedown", Handlers.get(logType).mouseDown);
+	canvasElem.addEventListener("mousemove", Handlers.get(logType).mouseMove);
+	canvasElem.addEventListener("mouseup", Handlers.get(logType).mouseUp);
 };
 
 export const deactivateRect: TRectToolState = (Board) => {
 	Board.updateSettings({ css: { cursor: "initial" } });
 
-	Board.getCtx().canvas.removeEventListener(
-		"mousedown",
-		Handlers.get(logType).mouseDown,
-	);
-	Board.getCtx().canvas.removeEventListener(
-		"mousemove",
-		Handlers.get(logType).mouseMove,
-	);
-	Board.getCtx().canvas.removeEventListener(
-		"mouseup",
-		Handlers.get(logType).mouseUp,
-	);
+	const canvasElem = Board.getCtx().canvas;
+	canvasElem.removeEventListener("mousedown", Handlers.get(logType).mouseDown);
+	canvasElem.removeEventListener("mousemove", Handlers.get(logType).mouseMove);
+	canvasElem.removeEventListener("mouseup", Handlers.get(logType).mouseUp);
 };
