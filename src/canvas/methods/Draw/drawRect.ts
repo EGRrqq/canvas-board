@@ -1,5 +1,5 @@
 import { Ctx } from "@/canvas/ctx";
-import { Draw, type IDraw } from "@/canvas/draw";
+import { Methods, type TMethods } from "@/canvas/methods";
 import type { Rect } from "@/models";
 
 export interface IDrawRectSettings {
@@ -14,7 +14,7 @@ const defaultSettings: IDrawRectSettings = {
 export type TDrawRect = (
 	rect: Rect,
 	settings?: Partial<IDrawRectSettings>,
-) => IDraw;
+) => TMethods;
 
 export const drawRect: TDrawRect = (rect, settings) => {
 	const s = { ...defaultSettings, ...settings };
@@ -31,5 +31,5 @@ export const drawRect: TDrawRect = (rect, settings) => {
 		size.height,
 	);
 
-	return Draw;
+	return Methods;
 };

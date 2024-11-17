@@ -1,1 +1,1 @@
-export { Board, type IBoardSettings } from "@/canvas/board/board";
+export { Board, type IBoardSettings, type TBoard } from "@/canvas/board/board";

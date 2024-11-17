@@ -1,4 +1,4 @@
-import { Draw } from "@/canvas/draw";
+import { Draw } from "@/canvas/methods/Draw";
 
 export type TBgColor = CanvasFillStrokeStyles["strokeStyle"];
 type TSetBg = (color: TBgColor) => void;

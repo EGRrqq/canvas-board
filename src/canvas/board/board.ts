@@ -1,29 +1,33 @@
 import { Ctx } from "@/canvas/ctx";
-import { Draw, type IDraw } from "@/canvas/draw";
+import { type ISettings, Methods, type TMethods } from "@/canvas/methods";
 import { Render } from "@/canvas/render";
-import { type TBgColor, setBg } from "./setBg";
 
-export interface IBoardSettings {
+export interface IBoardSettings extends ISettings {
 	alpha: boolean;
-	bgColor: TBgColor;
 }
 
-type TBoard = (id: string, settings?: Partial<IBoardSettings>) => IDraw;
+export type TBoard = (
+	id: string,
+	settings?: Partial<IBoardSettings>,
+) => TMethods;
 
 const defaultSettings: IBoardSettings = {
 	alpha: false,
 	bgColor: "#fff",
+	css: {
+		cursor: "initial",
+	},
 };
 
 export const Board: TBoard = (id, settings) => {
-	const s = { ...defaultSettings, ...settings };
+	const { alpha, ...s } = { ...defaultSettings, ...settings };
 
 	// Необходимо для инициализации
-	Ctx.setCtx(id, { alpha: s.alpha });
+	Ctx.setCtx(id, { alpha });
 	Render.clear().scale();
 
-	// настройка бг
-	setBg(s.bgColor);
+	// применяем настройки
+	Methods.updateSettings(s);
 
-	return Draw;
+	return Methods;
 };
