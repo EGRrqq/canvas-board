@@ -1,10 +1,7 @@
 import { isRectsIntersect } from "@/dataConverter/validate";
-import type { Rect } from "@/models";
+import type { Rect, Size } from "@/models";
 
-export const getRectDimensions = (
-	rect1: Rect,
-	rect2: Rect,
-): { width: number; height: number } => {
+export const getRectDimensions = (rect1: Rect, rect2: Rect): Size => {
 	// Проверка на пересечение прямоугольников
 	if (isRectsIntersect(rect1, rect2)) {
 		throw new Error("Прямоугольники пересекаются");
