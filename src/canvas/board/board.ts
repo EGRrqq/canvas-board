@@ -1,6 +1,6 @@
 import { Ctx } from "@/canvas/ctx";
 import { type ISettings, Methods, type TMethods } from "@/canvas/methods";
-import { View } from "canvas/methods/view";
+import { View } from "@/canvas/methods/view";
 
 export interface IBoardSettings extends ISettings {
 	alpha: boolean;
