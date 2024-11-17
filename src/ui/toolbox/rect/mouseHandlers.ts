@@ -1,6 +1,6 @@
 import type { TCanvas } from "@/canvas";
 import type { IDrawingItem, Point } from "@/models";
-import type { TMouseHandlerClosure, TSetHandlers } from "@/ui/toolbox/handler";
+import type { IClosures, TMouseHandlerClosure } from "@/ui/toolbox/handler";
 import { v4 as uuidv4 } from "uuid";
 
 let startPoint: Point | null = null;
@@ -39,7 +39,7 @@ const mouseUpClosure: TMouseHandlerClosure = (Board) => () => {
 	currentRect = null;
 };
 
-export const RectClosures: ReturnType<TSetHandlers> = {
+export const RectClosures: IClosures = {
 	mouseDownClosure,
 	mouseMoveClosure,
 	mouseUpClosure,

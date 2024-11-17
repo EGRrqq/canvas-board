@@ -7,10 +7,6 @@ type TRectTool = (Board: ReturnType<TCanvas>) => {
 };
 
 export const rectTool: TRectTool = (Board) => {
-	// design proto:
-	// - Canvas: Cursor point  -> DONE
-	// - CanvasEvent: (drag, drawRect) -> DONE
-	// - - on event success return IDrawingItem
 	return {
 		activate: () => activateRect(Board),
 		deactivate: () => deactivateRect(Board),

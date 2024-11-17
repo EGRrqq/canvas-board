@@ -1,12 +1,12 @@
 import type { TCanvas } from "@/canvas";
-import type { TToolType } from "@/models/ui/IDrawingItem";
+import type { TToolType } from "@/models";
 
 type TMouseHandler = (e: MouseEvent) => void;
 export type TMouseHandlerClosure = (
 	board: ReturnType<TCanvas>,
 ) => TMouseHandler;
 
-interface IClosures {
+export interface IClosures {
 	mouseDownClosure: TMouseHandlerClosure;
 	mouseMoveClosure: TMouseHandlerClosure;
 	mouseUpClosure: TMouseHandlerClosure;
