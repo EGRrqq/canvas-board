@@ -1,7 +1,7 @@
 import { Ctx } from "@/canvas/ctx";
-import { type TClear, clear } from "@/canvas/render/clear";
+import { type TClearRender, clear } from "@/canvas/view/clear";
 
-export type TScale = () => { clear: TClear };
+export type TScale = () => { clear: () => TClearRender };
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas#scaling_for_high_resolution_displays
 export const scale: TScale = () => {
@@ -21,5 +21,5 @@ export const scale: TScale = () => {
 	Ctx.getCtx().canvas.style.width = `${width}px`;
 	Ctx.getCtx().canvas.style.height = `${height}px`;
 
-	return { clear };
+	return { clear: () => clear("Render") };
 };
