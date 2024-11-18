@@ -1,5 +1,1 @@
-export type {
-	IDrawingItem,
-	ITool,
-	TToolType,
-} from "@/models/draw/IDrawingItem";
+export type { IDrawingItem } from "@/models/draw/IDrawingItem";

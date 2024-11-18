@@ -8,6 +8,7 @@ export default defineConfig({
 	build: {
 		outDir: "../dist",
 		assetsDir: "",
+		target: "esnext",
 	},
 	base: "/canvas-board/",
 	plugins: [tsconfigPaths()],

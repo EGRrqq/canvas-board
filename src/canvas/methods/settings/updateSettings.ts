@@ -37,7 +37,7 @@ export const updateSettings: TUpdateSettings = (s) => {
 				`Настройка "${key}" не поддерживается. Список доступных настроек: ${JSON.stringify(Object.keys(updateFunctions))}`,
 			);
 
-		updateFunctions[key as keyof ISettings](s[key!]);
+		updateFunctions[key as keyof ISettings](s[key]!);
 	}
 
 	return Methods;

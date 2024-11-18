@@ -1,4 +1,4 @@
-import type { TToolType } from "@/models";
+import type { TDrawType } from "@/canvas/methods/Draw";
 
 export type TMouseHandler = (e: MouseEvent) => void;
 
@@ -8,7 +8,7 @@ export interface IHandlers {
 	mouseUp: TMouseHandler;
 }
 
-type TGetHandlers = (type: TToolType) => IHandlers;
+type TGetHandlers = (type: TDrawType) => IHandlers;
 type TSetHandlers = (handlers: IHandlers) => void;
 
 let handlers: ReturnType<TGetHandlers> | null = null;
