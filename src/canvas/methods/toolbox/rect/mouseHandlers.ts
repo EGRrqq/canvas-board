@@ -27,6 +27,8 @@ const mouseDown: TMouseHandler = (e) => {
 		boundElem: [],
 		activeTool: "rect",
 	};
+
+	Storage.saveDrawing(currentRect);
 };
 
 const mouseMove: TMouseHandler = (e) => {
@@ -42,7 +44,7 @@ const mouseMove: TMouseHandler = (e) => {
 const mouseUp: TMouseHandler = () => {
 	if (!currentRect) return;
 
-	Storage.save(currentRect);
+	Storage.saveDrawing(currentRect);
 	isDrawing = false;
 	startPoint = null;
 	currentRect = null;

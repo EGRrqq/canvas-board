@@ -1,18 +1,18 @@
 import {
 	type TLoad,
 	type TSave,
-	load,
-	save,
+	loadDrawings,
+	saveDrawing,
 } from "@/canvas/methods/storage/storage";
 
 // Интерфейс для контроллера
 export interface IStorage {
-	save: TSave;
-	load: TLoad;
+	saveDrawing: TSave;
+	loadDrawings: TLoad;
 }
 
 // Контроллер
 export const Storage: IStorage = {
-	save,
-	load,
+	saveDrawing,
+	loadDrawings,
 };

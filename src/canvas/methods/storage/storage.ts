@@ -8,7 +8,7 @@ export type TSave = <TT extends TDrawType>(item: IDrawingItem<TT>) => TMethods;
 export type TLoad = () => TMethods;
 type TGet = <TT extends TDrawType>() => IDrawingItem<TT>[] | null;
 
-export const save: TSave = (item) => {
+export const saveDrawing: TSave = (item) => {
 	const loadedItems = get();
 	if (loadedItems) {
 		localStorage.setItem(ID, JSON.stringify([...loadedItems, item]));
@@ -20,7 +20,7 @@ export const save: TSave = (item) => {
 	return Methods;
 };
 
-export const load: TLoad = () => {
+export const loadDrawings: TLoad = () => {
 	const items = get();
 
 	if (items) {
