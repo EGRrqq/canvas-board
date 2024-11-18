@@ -22,10 +22,11 @@ function canvasDraw(brd: ReturnType<TBoard>, path: Point[]) {
 		.clear()
 		.scale()
 		.updateSettings({ bgColor: "#fff" })
-		.drawGrid()
-		.drawRect(rect1)
-		.drawRect(rect2)
-		.drawPath(path);
+		.load()
+		.grid(null)
+		.rect({ rect: rect1 })
+		.rect({ rect: rect2 })
+		.line({ path });
 
 	window.requestAnimationFrame(() => canvasDraw(brd, path));
 }

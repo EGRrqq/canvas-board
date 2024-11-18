@@ -1,5 +1,6 @@
 import { Ctx } from "@/canvas/ctx";
-import { Methods, type TMethods } from "@/canvas/methods";
+import { Methods } from "@/canvas/methods";
+import type { TDraw } from "@/canvas/methods/Draw";
 
 export interface IDrawGridSettings {
 	gridSize: number;
@@ -12,9 +13,10 @@ const defaultSettings: IDrawGridSettings = {
 	lineWidth: 0.5,
 };
 
-export type TDrawGrid = (settings?: Partial<IDrawGridSettings>) => TMethods;
+export type IDrawGridData = null;
+export type TDrawGrid = TDraw<IDrawGridData, IDrawGridSettings>;
 
-export const drawGrid: TDrawGrid = (settings) => {
+export const drawGrid: TDrawGrid = (_, settings) => {
 	const s = { ...defaultSettings, ...settings };
 
 	const width = window.innerWidth;

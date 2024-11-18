@@ -1,22 +1,23 @@
 import { Ctx } from "@/canvas/ctx";
-import { Methods, type TMethods } from "@/canvas/methods";
+import { Methods } from "@/canvas/methods";
+import type { TDraw } from "@/canvas/methods/Draw";
 import type { Point } from "@/models";
 
-export interface IDrawPathSettings {
+export interface IDrawLineSettings {
 	strokeStyle: CanvasFillStrokeStyles["strokeStyle"];
 	lineWidth: CanvasPathDrawingStyles["lineWidth"];
 }
-export type TDrawPath = (
-	path: Point[],
-	settings?: Partial<IDrawPathSettings>,
-) => TMethods;
+export interface IDrawLineData {
+	path: Point[];
+}
+export type TDrawLine = TDraw<IDrawLineData, IDrawLineSettings>;
 
-const defaultSettings: IDrawPathSettings = {
+const defaultSettings: IDrawLineSettings = {
 	strokeStyle: "#000",
 	lineWidth: 0.5,
 };
 
-export const drawPath: TDrawPath = (path, settings) => {
+export const drawLine: TDrawLine = ({ path }, settings) => {
 	const s = { ...defaultSettings, ...settings };
 
 	Ctx.getCtx().strokeStyle = s.strokeStyle;
