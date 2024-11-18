@@ -9,3 +9,5 @@ export const Toolbox: IToolbox = {
 	setActiveTool,
 	getActiveTool,
 };
+
+export { getDrawingState } from "@/canvas/methods/toolbox/tool";

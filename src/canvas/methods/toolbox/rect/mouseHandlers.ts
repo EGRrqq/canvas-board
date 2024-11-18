@@ -4,15 +4,18 @@ import type {
 	IHandlers,
 	TMouseHandler,
 } from "@/canvas/methods/toolbox/handler";
-import { View } from "@/canvas/methods/view";
 import type { IDrawingItem, Point } from "@/models";
 import { v4 as uuidv4 } from "uuid";
 
 let startPoint: Point | null = null;
 let currentRect: IDrawingItem<"rect"> | null = null;
+let isDrawing = false;
+
+export const getRectDrawingState = () => isDrawing;
 
 const mouseDown: TMouseHandler = (e) => {
 	startPoint = { x: e.offsetX, y: e.offsetY };
+	isDrawing = true;
 
 	currentRect = {
 		id: uuidv4(),
@@ -22,11 +25,12 @@ const mouseDown: TMouseHandler = (e) => {
 			settings: { fillStyle: "blue" },
 		},
 		boundElem: [],
+		activeTool: "rect",
 	};
 };
 
 const mouseMove: TMouseHandler = (e) => {
-	if (!startPoint || !currentRect) return;
+	if (!startPoint || !currentRect || !isDrawing) return;
 
 	const width = e.offsetX - startPoint.x;
 	const height = e.offsetY - startPoint.y;
@@ -39,6 +43,7 @@ const mouseUp: TMouseHandler = () => {
 	if (!currentRect) return;
 
 	Storage.save(currentRect);
+	isDrawing = false;
 	startPoint = null;
 	currentRect = null;
 };

@@ -1,6 +1,11 @@
 import { Methods, type TMethods } from "@/canvas/methods";
 import type { TDrawType } from "@/canvas/methods/Draw";
-import { type IRectTool, rectTool } from "@/canvas/methods/toolbox/rect";
+import {
+	type IRectTool,
+	getRectDrawingState,
+	rectTool,
+} from "@/canvas/methods/toolbox/rect";
+export { getRectDrawingState } from "@/canvas/methods/toolbox/rect";
 
 // Интерфейс для контроллера
 interface ITools {
@@ -34,3 +39,5 @@ export const setActiveTool: TSetActiveTool = (type) => {
 	return Methods;
 };
 export const getActiveTool: TGetActiveTool = () => activeTool;
+// getRectDrawingState() || getLineDrawingState()
+export const getDrawingState = (): boolean => getRectDrawingState();
