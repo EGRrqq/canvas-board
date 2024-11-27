@@ -3,6 +3,7 @@ import { Draw } from "@/canvas/methods/Draw";
 import { updateSettings } from "@/canvas/methods/settings";
 import { Storage } from "@/canvas/methods/storage";
 import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
+import { getRectDrawings } from "@/canvas/methods/toolbox/utils/getRectDrawings";
 import { isRect, isRectsIntersect } from "@/dataConverter";
 import type { IDrawingItem, Point, Rect } from "@/models";
 import { v4 as uuidv4 } from "uuid";
@@ -11,6 +12,7 @@ interface IRect {
 	rectDown: TRectDown;
 	rectMove: TRectMove;
 	rectUp: TRectUp;
+	rectValidate: TRectValidate;
 }
 
 type TRectMove = () => IMethods & Omit<IRect, "rectMove">;
@@ -22,15 +24,6 @@ let startPoint: Point | null = null;
 let currentRect: IDrawingItem<"rect"> | null = null;
 let isDraw = false;
 let notAllowed = false;
-
-const getStorageRectData = () =>
-	Storage.getDrawings()?.filter(
-		(i) => i.tool.type === "rect",
-	) as IDrawingItem<"rect">[];
-const getRectDrawings = () => {
-	const d = getStorageRectData();
-	return d ? d : [];
-};
 
 const intersects = (newRect: Rect) =>
 	getRectDrawings().some((rect) =>
@@ -56,7 +49,7 @@ export const rectDown: TRectDown = () => {
 		};
 	}
 
-	return { ...Methods, rectMove, rectUp };
+	return { ...Methods, rectMove, rectUp, rectValidate };
 };
 
 export const rectMove: TRectMove = () => {
@@ -74,10 +67,10 @@ export const rectMove: TRectMove = () => {
 		Draw.rect(currentRect.tool.data);
 	}
 
-	return { ...Methods, rectUp, rectDown };
+	return { ...Methods, rectUp, rectDown, rectValidate };
 };
 
-export const rectUp = () => {
+export const rectUp: TRectUp = () => {
 	const { mouseUp } = Handlers.getMouseHandlers();
 
 	if (mouseUp.flag && currentRect) {
@@ -93,7 +86,7 @@ export const rectUp = () => {
 		currentRect = null;
 	}
 
-	return { ...Methods, rectDown, rectMove };
+	return { ...Methods, rectDown, rectMove, rectValidate };
 };
 
 export const rectValidate: TRectValidate = () => {
