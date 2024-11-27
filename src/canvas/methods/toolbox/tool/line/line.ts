@@ -4,8 +4,11 @@ import { updateSettings } from "@/canvas/methods/settings";
 import { Storage } from "@/canvas/methods/storage";
 import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
 import { getRectDrawings } from "@/canvas/methods/toolbox/utils/getRectDrawings";
-import { isPointOnRectBoundary } from "@/dataConverter";
-import { getValidConnectionPoints } from "@/dataConverter/validate";
+import { dataConverter, isPointOnRectBoundary } from "@/dataConverter";
+import {
+	getValidAngles,
+	getValidConnectionPoints,
+} from "@/dataConverter/validate";
 import type { IDrawingItem, Point, Rect } from "@/models";
 import { v4 as uuidv4 } from "uuid";
 
@@ -24,11 +27,21 @@ type TLineValidate = () => IMethods & Omit<ILine, "lineValidate">;
 let isDraw = false;
 let notAllowed = false;
 let nearestPoint: Point | null = null;
-
+let rect1: Rect | null = null;
+let rect2: Rect | null = null;
+let firstPointFlag = true;
 const rectSize: Rect["size"] = { height: 7, width: 7 };
 const rectSettings: IDrawRectSettings = { fillStyle: "black" };
 
-const currentPoint: IDrawingItem<"point"> = {
+let firstPoint: IDrawingItem<"point"> = {
+	id: uuidv4(),
+	tool: {
+		type: "point",
+		data: { rect: { position: { x: 0, y: 0 }, size: rectSize } },
+		settings: rectSettings,
+	},
+};
+let secondPoint: IDrawingItem<"point"> = {
 	id: uuidv4(),
 	tool: {
 		type: "point",
@@ -42,18 +55,70 @@ const boundary = (point: Point) =>
 		isPointOnRectBoundary(point, rect.tool.data.rect),
 	);
 
-export const lineDown: TLineDown = () => {
+export const lineDown: TLineDown = async () => {
 	const { mouseDown } = Handlers.getMouseHandlers();
 
 	if (mouseDown.flag && mouseDown.e) {
 		mouseDown.flag = false;
 		if (!notAllowed) isDraw = true;
 
-		if (!notAllowed && nearestPoint) {
+		if (!notAllowed && nearestPoint && firstPointFlag) {
 			console.log("click");
 
-			currentPoint.tool.data.rect.position = nearestPoint;
-			Storage.saveDrawing(currentPoint);
+			firstPoint.tool.data.rect.position = nearestPoint;
+			firstPointFlag = false;
+			Storage.saveDrawing(firstPoint);
+		}
+
+		if (!notAllowed && nearestPoint && !firstPointFlag) {
+			secondPoint.tool.data.rect.position = nearestPoint;
+			firstPointFlag = false;
+			Storage.saveDrawing(secondPoint);
+		}
+
+		console.log({ rect1, rect2 });
+		if (rect1 && rect2) {
+			const point1 = firstPoint.tool.data.rect.position;
+			const point2 = secondPoint.tool.data.rect.position;
+			const firstValidAngle = getValidAngles(point1, rect1)[0];
+			const secondValidAngle = getValidAngles(point2, rect2)[0];
+
+			const data = await dataConverter({
+				cPoint1: {
+					point: point1,
+					angle: firstValidAngle,
+				},
+				cPoint2: { point: point2, angle: secondValidAngle },
+				rect1,
+				rect2,
+			});
+
+			Draw.line({ path: data });
+			Storage.saveDrawing({
+				id: "",
+				tool: { type: "line", data: { path: data } },
+			});
+
+			firstPoint = {
+				id: uuidv4(),
+				tool: {
+					type: "point",
+					data: { rect: { position: { x: 0, y: 0 }, size: rectSize } },
+					settings: rectSettings,
+				},
+			};
+			secondPoint = {
+				id: uuidv4(),
+				tool: {
+					type: "point",
+					data: { rect: { position: { x: 0, y: 0 }, size: rectSize } },
+					settings: rectSettings,
+				},
+			};
+			rect1 = null;
+			rect2 = null;
+
+			firstPointFlag = true;
 		}
 	}
 	return { ...Methods, lineUp, lineMove, lineValidate };
@@ -91,6 +156,12 @@ export const lineValidate = () => {
 					if (distance < minDistance) {
 						minDistance = distance;
 						nearestPoint = point;
+
+						if (firstPointFlag) {
+							rect1 = rect.tool.data.rect;
+						} else {
+							rect2 = rect.tool.data.rect;
+						}
 					}
 				}
 			}
@@ -103,10 +174,10 @@ export const lineValidate = () => {
 				{
 					rect: {
 						position: nearestPoint,
-						size: currentPoint.tool.data.rect.size,
+						size: firstPoint.tool.data.rect.size,
 					},
 				},
-				currentPoint.tool.settings,
+				firstPoint.tool.settings,
 			);
 		} else if (!boundary(cursorPoint)) {
 			isDraw = false;
