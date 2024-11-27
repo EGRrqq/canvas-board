@@ -20,6 +20,7 @@ const defaultSettings: IDrawLineSettings = {
 export const drawLine: TDrawLine = ({ path }, settings) => {
 	const s = { ...defaultSettings, ...settings };
 
+	Ctx.getCtx().save();
 	Ctx.getCtx().strokeStyle = s.strokeStyle;
 	Ctx.getCtx().lineWidth = s.lineWidth;
 
@@ -31,6 +32,7 @@ export const drawLine: TDrawLine = ({ path }, settings) => {
 	}
 
 	Ctx.getCtx().stroke();
+	Ctx.getCtx().restore();
 
 	return Methods;
 };

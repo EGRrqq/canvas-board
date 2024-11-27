@@ -23,6 +23,7 @@ export type TDrawRect = TDraw<IDrawRectData, IDrawRectSettings>;
 export const drawRect: TDrawRect = ({ rect }, settings) => {
 	const s = { ...defaultSettings, ...settings };
 
+	Ctx.getCtx().save();
 	const { position, size } = rect;
 	const halfWidth = size.width / 2;
 	const halfHeight = size.height / 2;
@@ -38,6 +39,7 @@ export const drawRect: TDrawRect = ({ rect }, settings) => {
 		Ctx.getCtx().strokeStyle = s.strokeStyle; // Use default if not provided
 		Ctx.getCtx().strokeRect(x, y, size.width, size.height);
 	}
+	Ctx.getCtx().restore();
 
 	return Methods;
 };

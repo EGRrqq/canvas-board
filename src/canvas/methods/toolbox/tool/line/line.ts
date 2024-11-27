@@ -93,10 +93,14 @@ export const lineDown: TLineDown = async () => {
 				rect2,
 			});
 
-			Draw.line({ path: data });
+			Draw.line({ path: data }, { lineWidth: 1.5 });
 			Storage.saveDrawing({
 				id: "",
-				tool: { type: "line", data: { path: data } },
+				tool: {
+					type: "line",
+					data: { path: data },
+					settings: { lineWidth: 1.5 },
+				},
 			});
 
 			firstPoint = {

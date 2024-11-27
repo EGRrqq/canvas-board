@@ -22,6 +22,7 @@ export const drawGrid: TDrawGrid = (_, settings) => {
 	const width = window.innerWidth;
 	const height = window.innerHeight;
 
+	Ctx.getCtx().save();
 	Ctx.getCtx().strokeStyle = s.strokeStyle;
 	Ctx.getCtx().lineWidth = s.lineWidth;
 
@@ -40,6 +41,7 @@ export const drawGrid: TDrawGrid = (_, settings) => {
 		Ctx.getCtx().stroke();
 		Ctx.getCtx().closePath();
 	}
+	Ctx.getCtx().restore();
 
 	return Methods;
 };
