@@ -37,8 +37,7 @@ const mouseUp: TMouseHandler = (e) => {
 		e,
 	};
 };
-/** @type {TMouseHandler} */
-const mouseDown = (e) => {
+const mouseDown: TMouseHandler = (e) => {
 	events.mouseUp.flag = false;
 
 	events.mouseDown = {

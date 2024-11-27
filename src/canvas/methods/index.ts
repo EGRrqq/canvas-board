@@ -1,4 +1,3 @@
-import { Ctx, type ICtx } from "@/canvas/ctx";
 import { Draw, type IDraw } from "@/canvas/methods/Draw";
 import {
 	type TUpdateSettings,
@@ -6,11 +5,13 @@ import {
 } from "@/canvas/methods/settings";
 import { type IStorage, Storage } from "@/canvas/methods/storage";
 import { type IView, View } from "@/canvas/methods/view";
+import { Toolbox } from "./toolbox";
+
+type IToolbox = typeof Toolbox;
 
 // Интерфейс для контроллера
-export interface TMethods extends IDraw, IView, IStorage {
+export interface TMethods extends IDraw, IView, IStorage, IToolbox {
 	updateSettings: TUpdateSettings;
-	getCtx: ICtx["getCtx"];
 }
 
 // Контроллер
@@ -18,9 +19,10 @@ export const Methods: TMethods = {
 	...Draw,
 	...View,
 	...Storage,
+	...Toolbox,
 	updateSettings,
-	getCtx: Ctx.getCtx,
 };
+export type IMethods = typeof Methods;
 
 // Настройки
 export type { IDrawSettings } from "@/canvas/methods/Draw";
