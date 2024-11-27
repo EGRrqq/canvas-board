@@ -1,6 +1,6 @@
 import { Ctx } from "@/canvas/ctx";
 import { type ISettings, Methods, type TMethods } from "@/canvas/methods";
-import { View } from "@/canvas/methods/view";
+import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
 
 export interface IBoardSettings extends ISettings {
 	alpha: boolean;
@@ -11,7 +11,7 @@ export type TBoard = (
 	settings?: Partial<IBoardSettings>,
 ) => TMethods;
 
-const defaultSettings: IBoardSettings = {
+export const defaultSettings: IBoardSettings = {
 	alpha: false,
 	bgColor: "#fff",
 	css: {
@@ -24,10 +24,8 @@ export const Board: TBoard = (id, settings) => {
 
 	// Необходимо для инициализации
 	Ctx.setCtx(id, { alpha });
-	View.clear().scale();
-
-	// применяем настройки
-	Methods.updateSettings(s);
+	Handlers.setMouseHandlers();
+	Methods.clear().scale().updateSettings(s);
 
 	return Methods;
 };

@@ -5,11 +5,14 @@ import type { Rect } from "@/models";
 
 export interface IDrawRectSettings {
 	fillStyle: CanvasFillStrokeStyles["fillStyle"];
-	// add rect-style settings = "fill" | "stroke"
+	strokeStyle: CanvasFillStrokeStyles["strokeStyle"];
+	style: "fill" | "stroke" | "fillAndStroke";
 }
 
 const defaultSettings: IDrawRectSettings = {
 	fillStyle: "#007bff",
+	strokeStyle: "black",
+	style: "fill",
 };
 
 export interface IDrawRectData {
@@ -23,14 +26,18 @@ export const drawRect: TDrawRect = ({ rect }, settings) => {
 	const { position, size } = rect;
 	const halfWidth = size.width / 2;
 	const halfHeight = size.height / 2;
+	const x = position.x - halfWidth;
+	const y = position.y - halfHeight;
 
-	Ctx.getCtx().fillStyle = s.fillStyle;
-	Ctx.getCtx().fillRect(
-		position.x - halfWidth,
-		position.y - halfHeight,
-		size.width,
-		size.height,
-	);
+	if (s.style === "fill" || s.style === "fillAndStroke") {
+		Ctx.getCtx().fillStyle = s.fillStyle;
+		Ctx.getCtx().fillRect(x, y, size.width, size.height);
+	}
+
+	if (s.style === "stroke" || s.style === "fillAndStroke") {
+		Ctx.getCtx().strokeStyle = s.strokeStyle; // Use default if not provided
+		Ctx.getCtx().strokeRect(x, y, size.width, size.height);
+	}
 
 	return Methods;
 };
