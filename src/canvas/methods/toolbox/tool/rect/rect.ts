@@ -2,25 +2,53 @@ import { type IMethods, Methods } from "@/canvas/methods";
 import { updateSettings } from "@/canvas/methods/settings";
 import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
 
-type IToolMethods<T> = () => IMethods & T;
-export interface IToolRaw {
-	rectHover: () => IToolMethods<Pick<IToolRaw, "rectClick">>;
-	rectClick: () => IToolMethods<Pick<IToolRaw, "rectHover">>;
+interface IRect {
+	rectDown: TRectDown;
+	rectMove: TRectMove;
+	rectUp: TRectUp;
 }
 
-// let points = []; // Массив для хранения точек
-let isDrawEnded = false;
+type TRectMove = () => IMethods & Omit<IRect, "rectMove">;
+type TRectDown = () => IMethods & Omit<IRect, "rectDown">;
+type TRectUp = () => IMethods & Omit<IRect, "rectUp">;
 
-export const rectHover: IToolRaw["rectHover"] = () => {
+// let points = []; // Массив для хранения точек
+let isDraw = false;
+
+export const rectDown: TRectDown = () => {
+	const { mouseDown } = Handlers.getMouseHandlers();
+
+	if (mouseDown.flag && mouseDown.e) {
+		mouseDown.flag = false;
+		isDraw = true;
+	}
+
+	return { ...Methods, rectMove, rectUp };
+};
+
+export const rectMove: TRectMove = () => {
 	const { mouseMove } = Handlers.getMouseHandlers();
-	isDrawEnded = false;
 
 	// if (!isDrawEnded && mouseMove.e && (mouseMove.flag || points.length)) {
 	// }
 
-	if (!isDrawEnded && mouseMove.e) {
+	if (mouseMove.flag) {
 		updateSettings({ css: { cursor: "crosshair" } });
 	}
 
-	return { ...Methods };
+	if (isDraw && mouseMove.flag) {
+		console.log("buhhhhhh");
+	}
+
+	return { ...Methods, rectUp, rectDown };
+};
+
+export const rectUp = () => {
+	const { mouseUp } = Handlers.getMouseHandlers();
+
+	if (mouseUp.flag) {
+		isDraw = false;
+	}
+
+	return { ...Methods, rectDown, rectMove };
 };
