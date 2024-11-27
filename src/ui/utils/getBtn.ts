@@ -1,6 +1,6 @@
 type TGetBtn = (id: string) => HTMLButtonElement;
 
-export const getStartBtn: TGetBtn = (id) => {
+export const getBtn: TGetBtn = (id) => {
 	const btn = document.getElementById(id);
 
 	if (!(btn instanceof HTMLButtonElement))

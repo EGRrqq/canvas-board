@@ -1,18 +1,28 @@
 import "style.css";
-import { rectToolBtn } from "@/ui/toolbox";
+import { ActiveToolBtn, type TBtnIds } from "@/ui/toolbox";
 import { Canvas } from "./canvas";
 
 const Brd = Canvas("board");
-const rectToolBtnId = "rect-tool";
+const btnIds: TBtnIds = { rect: "rect-tool" };
 
 // События
 window.addEventListener(
 	"load",
-	() => rectToolBtn.init(rectToolBtnId, Brd, true),
+	() =>
+		ActiveToolBtn.init({
+			Canvas: Brd,
+			activeToolType: "rect",
+			btnIds,
+			firstRender: true,
+		}),
 	{
 		once: true,
 	},
 );
-window.addEventListener("resize", () => rectToolBtn.init(rectToolBtnId, Brd), {
-	once: true,
-});
+window.addEventListener(
+	"resize",
+	() => ActiveToolBtn.init({ Canvas: Brd, activeToolType: "rect", btnIds }),
+	{
+		once: true,
+	},
+);

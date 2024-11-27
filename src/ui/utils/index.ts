@@ -1,1 +1,1 @@
-export { getStartBtn } from "@/ui/utils/getStartBtn";
+export { getBtn as getStartBtn } from "@/ui/utils/getStartBtn";
