@@ -3,6 +3,7 @@ import { Draw } from "@/canvas/methods/Draw";
 import { updateSettings } from "@/canvas/methods/settings";
 import { Storage } from "@/canvas/methods/storage";
 import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
+import { isRect } from "@/dataConverter";
 import type { IDrawingItem, Point } from "@/models";
 import { v4 as uuidv4 } from "uuid";
 
@@ -65,7 +66,13 @@ export const rectUp = () => {
 
 	if (mouseUp.flag && currentRect) {
 		isDraw = false;
-		Storage.saveDrawing(currentRect);
+
+		const { rect: newRect } = currentRect.tool.data;
+
+		if (isRect(newRect)) {
+			Storage.saveDrawing(currentRect);
+		}
+
 		startPoint = null;
 		currentRect = null;
 	}
