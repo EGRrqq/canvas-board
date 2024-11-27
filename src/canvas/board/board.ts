@@ -11,7 +11,7 @@ export type TBoard = (
 	settings?: Partial<IBoardSettings>,
 ) => TMethods;
 
-const defaultSettings: IBoardSettings = {
+export const defaultSettings: IBoardSettings = {
 	alpha: false,
 	bgColor: "#fff",
 	css: {

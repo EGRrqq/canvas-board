@@ -1,4 +1,5 @@
 import type { IMethods } from "@/canvas/methods";
+import { TDrawRect } from "@/canvas/methods/Draw/drawRect";
 import type { TTools } from "@/canvas/methods/toolbox/tool/ITools";
 import * as ToolboxColors from "@/ui/toolbox/colors";
 import { getBtn } from "@/ui/utils/getBtn";
@@ -7,55 +8,60 @@ type TBtns = { [T in keyof TTools]: HTMLButtonElement };
 export type TBtnIds = { [T in keyof TTools]: string };
 type TBtnStyles = { [T in keyof TTools]: CSSStyleDeclaration };
 
+let activeToolType: keyof TTools = "rect";
+const getActiveToolType = () => activeToolType;
+
 type TInit = (props: {
 	btnIds: TBtnIds;
 	Canvas: IMethods;
-	activeToolType: keyof TTools;
 	firstRender?: boolean;
 }) => void;
-export const init: TInit = ({
-	btnIds,
-	Canvas,
-	activeToolType,
-	firstRender,
-}) => {
+export const init: TInit = ({ btnIds, Canvas, firstRender }) => {
 	const btns: TBtns = { rect: getBtn(btnIds.rect), line: getBtn(btnIds.line) };
 	const styles: TBtnStyles = { rect: btns.rect.style, line: btns.line.style };
 
 	for (const type in btns) {
-		btns[type as keyof TTools].addEventListener("click", () =>
-			onClick({ Canvas, activeToolType: type as keyof TTools, styles }),
-		);
+		btns[type as keyof TTools].addEventListener("click", () => {
+			activeToolType = type as keyof TTools;
+			Canvas.resetSettings();
+			updateBtnStyles({ styles });
+		});
 	}
+
+	renderCanvasWithTool({ Canvas });
 
 	firstRender && btns[activeToolType].click();
 };
 
-export const deactivate = () => {};
-
-type TOnClick = (props: {
+type TRenderCanvasWithTool = (props: {
 	Canvas: IMethods;
-	activeToolType: keyof TTools;
-	styles: TBtnStyles;
 }) => void;
-const onClick: TOnClick = ({ Canvas, activeToolType, styles: style }) => {
+const renderCanvasWithTool: TRenderCanvasWithTool = ({ Canvas, styles }) => {
 	const render = () => {
 		Canvas.clear()
 			.scale()
 			.updateSettings({ bgColor: "#fff" })
-			.setActiveTool(activeToolType)
+			.setActiveTool(getActiveToolType())
 			.loadDrawings();
 
 		window.requestAnimationFrame(render);
 	};
 
-	for (const tool in style) {
+	render();
+};
+
+type TUpdateBtnStyle = (props: { styles: TBtnStyles }) => void;
+const updateBtnStyles: TUpdateBtnStyle = ({ styles }) => {
+	for (const tool in styles) {
 		if (tool === activeToolType) {
-			style[tool].background = ToolboxColors.active;
+			styles[tool].background = ToolboxColors.active;
 			continue;
 		}
-		style[tool as keyof TTools].background = ToolboxColors.notActive;
+		styles[tool as keyof TTools].background = ToolboxColors.notActive;
 	}
+};
 
-	render();
+type TResetCanvasStyles = (props: { Canvas: IMethods }) => void;
+const resetCanvasStyles: TResetCanvasStyles = ({ Canvas }) => {
+	Canvas.updateSettings({ css: { cursor: "initial" } });
 };
