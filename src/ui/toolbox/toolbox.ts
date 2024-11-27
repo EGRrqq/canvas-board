@@ -41,8 +41,8 @@ const renderCanvasWithTool: TRenderCanvasWithTool = ({ Canvas, styles }) => {
 		Canvas.clear()
 			.scale()
 			.updateSettings({ bgColor: "#fff" })
-			.setActiveTool(getActiveToolType())
-			.loadDrawings();
+			.loadDrawings()
+			.setActiveTool(getActiveToolType());
 
 		window.requestAnimationFrame(render);
 	};
