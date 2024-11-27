@@ -24,6 +24,7 @@ export interface IDraw {
 	rect: TDrawRect;
 	grid: TDrawGrid;
 	line: TDrawLine;
+	point: TDrawRect;
 }
 
 // Интерфейс для настроек
@@ -31,6 +32,7 @@ export interface IDrawSettings {
 	rect: IDrawRectSettings;
 	grid: IDrawGridSettings;
 	line: IDrawLineSettings;
+	point: IDrawRectSettings;
 }
 
 // Интерфейс для данных
@@ -38,6 +40,7 @@ export interface IDrawData {
 	rect: IDrawRectData;
 	grid: IDrawGridData;
 	line: IDrawLineData;
+	point: IDrawRectData;
 }
 
 // Ключи контроллера
@@ -55,6 +58,7 @@ export const Draw: IDraw = {
 	rect: drawRect,
 	line: drawLine,
 	grid: drawGrid,
+	point: drawRect,
 };
 
 // Настройки

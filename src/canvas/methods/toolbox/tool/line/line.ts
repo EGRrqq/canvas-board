@@ -1,11 +1,13 @@
 import { type IMethods, Methods } from "@/canvas/methods";
-import { Draw } from "@/canvas/methods/Draw";
+import { Draw, type IDrawRectSettings } from "@/canvas/methods/Draw";
 import { updateSettings } from "@/canvas/methods/settings";
+import { Storage } from "@/canvas/methods/storage";
 import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
 import { getRectDrawings } from "@/canvas/methods/toolbox/utils/getRectDrawings";
 import { isPointOnRectBoundary } from "@/dataConverter";
 import { getValidConnectionPoints } from "@/dataConverter/validate";
-import type { Point } from "@/models";
+import type { IDrawingItem, Point, Rect } from "@/models";
+import { v4 as uuidv4 } from "uuid";
 
 interface ILine {
 	lineDown: TLineDown;
@@ -21,6 +23,19 @@ type TLineValidate = () => IMethods & Omit<ILine, "lineValidate">;
 
 let isDraw = false;
 let notAllowed = false;
+let nearestPoint: Point | null = null;
+
+const rectSize: Rect["size"] = { height: 7, width: 7 };
+const rectSettings: IDrawRectSettings = { fillStyle: "black" };
+
+const currentPoint: IDrawingItem<"point"> = {
+	id: uuidv4(),
+	tool: {
+		type: "point",
+		data: { rect: { position: { x: 0, y: 0 }, size: rectSize } },
+		settings: rectSettings,
+	},
+};
 
 const boundary = (point: Point) =>
 	getRectDrawings().some((rect) =>
@@ -33,17 +48,19 @@ export const lineDown: TLineDown = () => {
 	if (mouseDown.flag && mouseDown.e) {
 		mouseDown.flag = false;
 		if (!notAllowed) isDraw = true;
+
+		if (!notAllowed && nearestPoint) {
+			console.log("click");
+
+			currentPoint.tool.data.rect.position = nearestPoint;
+			Storage.saveDrawing(currentPoint);
+		}
 	}
 	return { ...Methods, lineUp, lineMove, lineValidate };
 };
 
 export const lineMove: TLineMove = () => {
 	const { mouseMove } = Handlers.getMouseHandlers();
-
-	if (mouseMove.flag) {
-		updateSettings({ css: { cursor: "crosshair" } });
-	}
-
 	return { ...Methods, lineDown, lineUp, lineValidate };
 };
 
@@ -62,7 +79,6 @@ export const lineValidate = () => {
 	if (!isDraw && mouseMove.e) {
 		const RADIUS = 10;
 		const cursorPoint = { x: mouseMove.e.offsetX, y: mouseMove.e.offsetY };
-		let nearestPoint: Point | null = null;
 		let minDistance = Number.POSITIVE_INFINITY;
 
 		for (const rect of getRectDrawings()) {
@@ -81,12 +97,16 @@ export const lineValidate = () => {
 		}
 
 		if (nearestPoint) {
+			notAllowed = false;
 			updateSettings({ css: { cursor: "pointer" } });
 			Draw.rect(
 				{
-					rect: { position: nearestPoint, size: { height: 7, width: 7 } },
+					rect: {
+						position: nearestPoint,
+						size: currentPoint.tool.data.rect.size,
+					},
 				},
-				{ fillStyle: "black" },
+				currentPoint.tool.settings,
 			);
 		} else if (!boundary(cursorPoint)) {
 			isDraw = false;
