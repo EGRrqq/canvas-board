@@ -64,6 +64,8 @@ section#toolbox {
 		&:active {
 			font-size: calc(var(--main-font-size) * 0.9);
 			border: calc(var(--border) / 2) solid black;
+
+			transform: translate(calc(var(--border) / -4), calc(var(--border) / -4));
 			box-shadow: none;
 		}
 
