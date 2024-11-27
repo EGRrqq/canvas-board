@@ -1,5 +1,5 @@
 import { type IMethods, Methods } from "@/canvas/methods";
-import { Draw } from "@/canvas/methods/Draw";
+import { Draw, type IDrawRectSettings } from "@/canvas/methods/Draw";
 import { updateSettings } from "@/canvas/methods/settings";
 import { Storage } from "@/canvas/methods/storage";
 import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
@@ -19,6 +19,12 @@ type TRectMove = () => IMethods & Omit<IRect, "rectMove">;
 type TRectDown = () => IMethods & Omit<IRect, "rectDown">;
 type TRectUp = () => IMethods & Omit<IRect, "rectUp">;
 type TRectValidate = () => IMethods & Omit<IRect, "rectValidate">;
+
+const rectSettings: IDrawRectSettings = {
+	fillStyle: "#ffdff1",
+	style: "fillAndStroke",
+	strokeStyle: "black",
+};
 
 let startPoint: Point | null = null;
 let currentRect: IDrawingItem<"rect"> | null = null;
@@ -44,7 +50,7 @@ export const rectDown: TRectDown = () => {
 			tool: {
 				type: "rect",
 				data: { rect: { position: startPoint, size: { height: 0, width: 0 } } },
-				settings: { fillStyle: "blue" },
+				settings: rectSettings,
 			},
 		};
 	}
@@ -64,7 +70,7 @@ export const rectMove: TRectMove = () => {
 		const height = Math.abs(mouseMove.e.offsetY - startPoint.y);
 
 		currentRect.tool.data.rect.size = { width, height };
-		Draw.rect(currentRect.tool.data);
+		Draw.rect(currentRect.tool.data, rectSettings);
 	}
 
 	return { ...Methods, rectUp, rectDown, rectValidate };
