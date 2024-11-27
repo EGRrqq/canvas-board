@@ -36,7 +36,6 @@ export const rectDown: TRectDown = () => {
 				data: { rect: { position: startPoint, size: { height: 0, width: 0 } } },
 				settings: { fillStyle: "blue" },
 			},
-			activeTool: "rect",
 		};
 	}
 
