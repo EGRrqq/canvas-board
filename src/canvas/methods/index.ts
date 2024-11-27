@@ -5,11 +5,10 @@ import {
 	updateSettings,
 } from "@/canvas/methods/settings";
 import { type IStorage, Storage } from "@/canvas/methods/storage";
-import { type IToolbox, Toolbox } from "@/canvas/methods/toolbox";
 import { type IView, View } from "@/canvas/methods/view";
 
 // Интерфейс для контроллера
-export interface TMethods extends IDraw, IView, IStorage, IToolbox {
+export interface TMethods extends IDraw, IView, IStorage {
 	updateSettings: TUpdateSettings;
 	getCtx: ICtx["getCtx"];
 }
@@ -19,7 +18,6 @@ export const Methods: TMethods = {
 	...Draw,
 	...View,
 	...Storage,
-	...Toolbox,
 	updateSettings,
 	getCtx: Ctx.getCtx,
 };

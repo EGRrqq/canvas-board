@@ -36,8 +36,6 @@ function canvasDraw(brd: ReturnType<TBoard>, path: Point[]) {
 export async function canvasSetup() {
 	// Получаем доступ к канвасу
 	const brd = Canvas("board");
-	// Активируем дефолтный инструмент
-	// brd.getActiveTool().activate();
 
 	canvasDraw(brd, []);
 }
