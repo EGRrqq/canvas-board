@@ -19,17 +19,19 @@ export const init: TInit = ({
 	activeToolType,
 	firstRender,
 }) => {
-	const btns: TBtns = { rect: getBtn(btnIds.rect) };
-	const styles: TBtnStyles = { rect: btns.rect.style };
+	const btns: TBtns = { rect: getBtn(btnIds.rect), line: getBtn(btnIds.line) };
+	const styles: TBtnStyles = { rect: btns.rect.style, line: btns.line.style };
 
-	for (const btn of Object.values(btns)) {
-		btn.addEventListener("click", () =>
-			onClick({ Canvas, activeToolType, styles }),
+	for (const type in btns) {
+		btns[type as keyof TTools].addEventListener("click", () =>
+			onClick({ Canvas, activeToolType: type as keyof TTools, styles }),
 		);
 	}
 
 	firstRender && btns[activeToolType].click();
 };
+
+export const deactivate = () => {};
 
 type TOnClick = (props: {
 	Canvas: IMethods;

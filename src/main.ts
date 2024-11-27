@@ -3,7 +3,7 @@ import { ActiveToolBtn, type TBtnIds } from "@/ui/toolbox";
 import { Canvas } from "./canvas";
 
 const Brd = Canvas("board");
-const btnIds: TBtnIds = { rect: "rect-tool" };
+const btnIds: TBtnIds = { rect: "rect-tool", line: "line-tool" };
 
 // События
 window.addEventListener(
