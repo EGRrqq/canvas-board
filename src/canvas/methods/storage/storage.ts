@@ -2,14 +2,14 @@ import { Methods, type TMethods } from "@/canvas/methods";
 import { Draw, type TDrawType } from "@/canvas/methods/Draw";
 import type { IDrawingItem } from "@/models";
 
-const ID = "canvas-board";
+const ID = "canvas-drawings";
 
 export type TSave = <TT extends TDrawType>(item: IDrawingItem<TT>) => TMethods;
 export type TLoad = () => TMethods;
 type TGet = <TT extends TDrawType>() => IDrawingItem<TT>[] | null;
 
 export const saveDrawing: TSave = (item) => {
-	const loadedItems = get();
+	const loadedItems = getDrawings();
 	if (loadedItems) {
 		localStorage.setItem(ID, JSON.stringify([...loadedItems, item]));
 		return Methods;
@@ -21,7 +21,7 @@ export const saveDrawing: TSave = (item) => {
 };
 
 export const loadDrawings: TLoad = () => {
-	const items = get();
+	const items = getDrawings();
 
 	if (items) {
 		for (const i of items) {
@@ -35,7 +35,7 @@ export const loadDrawings: TLoad = () => {
 	return Methods;
 };
 
-const get: TGet = () => {
+export const getDrawings: TGet = () => {
 	const tool = localStorage.getItem(ID);
 	return tool ? JSON.parse(tool) : null;
 };

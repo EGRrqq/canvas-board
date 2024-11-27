@@ -3,7 +3,7 @@ import { Draw } from "@/canvas/methods/Draw";
 import { updateSettings } from "@/canvas/methods/settings";
 import { Storage } from "@/canvas/methods/storage";
 import { Handlers } from "@/canvas/methods/toolbox/tool/handlers";
-import { isRect } from "@/dataConverter";
+import { isRect, isRectsIntersect } from "@/dataConverter";
 import type { IDrawingItem, Point } from "@/models";
 import { v4 as uuidv4 } from "uuid";
 
@@ -20,6 +20,15 @@ type TRectUp = () => IMethods & Omit<IRect, "rectUp">;
 let startPoint: Point | null = null;
 let currentRect: IDrawingItem<"rect"> | null = null;
 let isDraw = false;
+
+const getStorageRectData = () =>
+	Storage.getDrawings()?.filter(
+		(i) => i.tool.type === "rect",
+	) as IDrawingItem<"rect">[];
+const getRectDrawings = () => {
+	const d = getStorageRectData();
+	return d ? d : [];
+};
 
 export const rectDown: TRectDown = () => {
 	const { mouseDown } = Handlers.getMouseHandlers();
@@ -51,8 +60,8 @@ export const rectMove: TRectMove = () => {
 	}
 
 	if (isDraw && startPoint && currentRect && mouseMove.flag && mouseMove.e) {
-		const width = mouseMove.e.offsetX - startPoint.x;
-		const height = mouseMove.e.offsetY - startPoint.y;
+		const width = Math.abs(mouseMove.e.offsetX - startPoint.x);
+		const height = Math.abs(mouseMove.e.offsetY - startPoint.y);
 
 		currentRect.tool.data.rect.size = { width, height };
 		Draw.rect(currentRect.tool.data);
@@ -68,8 +77,11 @@ export const rectUp = () => {
 		isDraw = false;
 
 		const { rect: newRect } = currentRect.tool.data;
+		const intersects = getRectDrawings().some((rect) =>
+			isRectsIntersect(rect.tool.data.rect, newRect),
+		);
 
-		if (isRect(newRect)) {
+		if (isRect(newRect) && !intersects) {
 			Storage.saveDrawing(currentRect);
 		}
 
