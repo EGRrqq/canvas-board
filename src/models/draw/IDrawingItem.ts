@@ -4,5 +4,5 @@ export interface IDrawingItem<TT extends TDrawType> {
 	id: string;
 	activeTool: TDrawType;
 	tool: IDrawTool<TT>;
-	boundElem: Pick<IDrawingItem<TT>, "id">[];
+	// boundElem: Pick<IDrawingItem<TT>, "id">[];
 }

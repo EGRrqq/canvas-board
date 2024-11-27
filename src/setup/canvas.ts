@@ -3,7 +3,12 @@ import type { TBoard } from "@/canvas/board";
 
 // Рендер
 function canvasRect(brd: ReturnType<TBoard>) {
-	brd.clear().scale().updateSettings({ bgColor: "#fff" }).setActiveTool("rect");
+	brd
+		.clear()
+		.scale()
+		.updateSettings({ bgColor: "#fff" })
+		.setActiveTool("rect")
+		.loadDrawings();
 
 	window.requestAnimationFrame(() => canvasRect(brd));
 }
