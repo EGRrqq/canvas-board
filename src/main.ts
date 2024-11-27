@@ -1,7 +1,18 @@
 import "style.css";
+import { rectToolBtn } from "@/ui/toolbox";
+import { Canvas } from "./canvas";
 
-import { canvasSetup } from "@/setup";
+const Brd = Canvas("board");
+const rectToolBtnId = "rect-tool";
 
 // События
-window.addEventListener("load", canvasSetup, { once: true });
-window.addEventListener("resize", canvasSetup, { once: true });
+window.addEventListener(
+	"load",
+	() => rectToolBtn.init(rectToolBtnId, Brd, true),
+	{
+		once: true,
+	},
+);
+window.addEventListener("resize", () => rectToolBtn.init(rectToolBtnId, Brd), {
+	once: true,
+});
